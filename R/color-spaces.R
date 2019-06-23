@@ -10,17 +10,23 @@ colours_hex <- c("#008698", "#232C31", "#b5a991", "#c94b20", "#696A6D", "#A79344
 #### RGB and RGB hex ####
 #############################################################################
 #' @importFrom stringr str_pad
+#' @export
 rgb_to_hex <- function(red, green, blue) {
 
-    return(paste0("#", str_pad(string = as.hexmode(red), width = 2,
+    if (any(red < 0 | red > 255) | any(green < 0 | green > 255) | any(blue < 0 | blue > 255)) {
+        stop("Colour channels should be between 0 and 255.")
+    }
+
+    return(paste0("#", str_pad(string = as.hexmode(floor(red)), width = 2,
                                pad = "0", side = "left"),
-                  str_pad(string = as.hexmode(green), width = 2,
+                  str_pad(string = as.hexmode(floor(green)), width = 2,
                           pad = "0", side = "left"),
-                  str_pad(string = as.hexmode(blue), width = 2,
+                  str_pad(string = as.hexmode(floor(blue)), width = 2,
                           pad = "0", side = "left")))
 }
 
 #### Convert hexadecimal colours to RGB
+#' @export
 hex_to_rgb <- function(hex_colours, normalise = FALSE) {
 
     stripped <- gsub(pattern = "#", replacement = "", x = hex_colours)
@@ -28,15 +34,13 @@ hex_to_rgb <- function(hex_colours, normalise = FALSE) {
     # Test character lengther
     if (!all(nchar(stripped) == 6)) {
         bad_colours <- which(nchar(stripped) != 6)
-        warning(paste("The following colours do not have six digits.\n", paste(bad_colours, collapse = ", ")))
-        stop()
+        stop(paste("The following colours do not have six digits.\n", paste(bad_colours, collapse = ", ")))
     }
 
     # Test all parse to numeric
     if (any(is.na(strtoi(paste0("0x", stripped))))) {
         bad_colours <- which(is.na(strtoi(paste0("0x", stripped))))
-        warning(paste("The following colours do not parse from hex to decimal.\n", paste(bad_colours, collapse = ", ")))
-        stop()
+        stop(paste("The following colours do not parse from hex to decimal.\n", paste(bad_colours, collapse = ", ")))
     }
 
 
@@ -62,12 +66,14 @@ hex_to_rgb <- function(hex_colours, normalise = FALSE) {
 
 # XYZ transformation matrix
 #TODO: Options of transformation matrics
+#' @export
 transformation_matrix <-  matrix(c(0.5767309, 0.1855540, 0.1881852,
                                    0.2973769, 0.6273491, 0.0752741,
                                    0.0270343, 0.0706872,  0.9911085),
                                  nrow = 3, byrow = TRUE)
 
 # Conversion from RGB space to XYZ space
+#' @export
 rgb_to_xyz <- function(rgb, m, normalise = FALSE) {
 
     if (normalise) {
@@ -79,18 +85,20 @@ rgb_to_xyz <- function(rgb, m, normalise = FALSE) {
 }
 
 # Conversion from XYZ space to RGB space
-xyz_to_rgb <- function(xyz, m, scale = FALSE) {
+#' @export
+xyz_to_rgb <- function(xyz, m, normalise = FALSE) {
 
-    if (scale) {
-        return(t(apply(X = xyz, MARGIN = 1, FUN = function(x) m %*% x)) * 255)
+    if (normalise) {
+        rgb <- as.data.frame(scale(t(apply(X = xyz, MARGIN = 1, FUN = function(x) m %*% x)), center = FALSE) * 255)
+        colnames(rgb) <- c("red", "green", "blue")
+        return(rgb)
     } else {
-        return(t(apply(X = xyz, MARGIN = 1, FUN = function(x) m %*% x)))
+        rgb <- as.data.frame(t(apply(X = xyz, MARGIN = 1, FUN = function(x) m %*% x)))
+        colnames(rgb) <- c("red", "green", "blue")
+        return(rgb)
     }
 
 }
-
-colours_rgb <- hex_to_rgb(colours_hex, normalise = TRUE)
-colours_xyz <- rgb_to_xyz(rgb = colours_rgb, m = transformation_matrix)
 
 #############################################################################
 #### XYZ to Lab ####
@@ -123,10 +131,19 @@ b_star <- function(.y, .y_n, .z, .z_n, .f) {
     return(200 * (.f(.y, .y_n) - .f(.z, .z_n)))
 }
 
+#' @export
+xyz_to_lab <- function(xyz) {
+    if (ncol(xyz) != 3) {
+        stop("XYZ colours should be a matrix or data.frame with three columns.")
+    }
 
-colours_lab <- data.frame(l = l_star(.y = colours_xyz[ , 2], .y_n = y_n, .f = f),
-                          a = a_star(.x = colours_xyz[ , 1], .x_n = x_n, .y = colours_xyz[ , 2], .y_n = y_n, .f = f),
-                          b = b_star(.y = colours_xyz[ , 2], .y_n = y_n, .z = colours_xyz[ , 3], .z_n = z_n, .f = f))
+    colours_lab <- data.frame(l = l_star(.y = xyz[ , 2], .y_n = y_n, .f = f),
+                              a = a_star(.x = xyz[ , 1], .x_n = x_n, .y = xyz[ , 2], .y_n = y_n, .f = f),
+                              b = b_star(.y = xyz[ , 2], .y_n = y_n, .z = xyz[ , 3], .z_n = z_n, .f = f))
+
+    return(colours_lab)
+}
+
 
 #############################################################################
 #### Lab to XYZ ####
@@ -150,13 +167,47 @@ lab_to_z <- function(.l, .b, .z_n, .f_inv) {
     return(.z_n * .f_inv(((.l + 16) / 116) - (.b / 200)))
 }
 
-back_to_xyz <- data.frame(x = lab_to_x(.l = colours_lab$l, .a = colours_lab$a, .x_n = x_n, .f_inv = f_inv),
-                          y = lab_to_y(.l = colours_lab$l, .y_n = y_n, .f_inv = f_inv),
-                          z = lab_to_z(.l = colours_lab$l, .b = colours_lab$b, .z_n = z_n, .f_inv = f_inv))
+#' @export
+lab_to_xyz <- function(lab) {
+    if (ncol(lab) != 3) {
+        stop("Lab colours should be a matrix or data.frame with three columns.")
+    }
 
+    colours_xyz <- data.frame(x = lab_to_x(.l = lab[ , 1], .a = lab[ , 2], .x_n = x_n, .f_inv = f_inv),
+                              y = lab_to_y(.l = lab[ , 1], .y_n = y_n, .f_inv = f_inv),
+                              z = lab_to_z(.l = lab[ , 1], .b = lab[ , 3], .z_n = z_n, .f_inv = f_inv))
+    return(colours_xyz)
 
-back_to_rgb <- xyz_to_rgb(xyz = back_to_xyz, m = solve(transformation_matrix), scale = TRUE)
+}
 
-back_to_hex <- rgb_to_hex(round(back_to_rgb[ , 1]), round(back_to_rgb[ , 2]), round(back_to_rgb[ , 3]))
+#############################################################################
+#### RGB to Lab ####
+#############################################################################
 
+    #' @export
+    rgb_to_lab <- function(rgb, m, normalise = FALSE) {
+        xyz <- rgb_to_xyz(rgb = rgb, m = m, normalise = normalise)
+        lab <- xyz_to_lab(xyz = xyz)
+        return(lab)
+    }
 
+    #' @export
+    lab_to_rgb <- function(lab, m, normalise = FALSE) {
+        xyz <- lab_to_xyz(lab = lab)
+        rgb <- xyz_to_rgb(xyz = xyz, m = solve(m), normalise = normalise)
+        return(rgb)
+    }
+
+    #' @export
+    hex_to_lab <- function(hex, m, normalise = FALSE) {
+        rgb <- hex_to_rgb(hex_colours = hex, normalise = normalise)
+        lab <- rgb_to_lab(rgb, m = m, normalise = normalise)
+        return(lab)
+    }
+
+    #' @export
+    lab_to_hex <- function(lab, m, normalise = FALSE) {
+        rgb <- lab_to_rgb(lab = lab, m = solve(m), normalise = normalise)
+        hex <- rgb_to_hex(rgb)
+        return(hex)
+    }
