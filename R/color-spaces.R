@@ -21,7 +21,7 @@ rgb_to_hex <- function(rgb) {
 
 #### Convert hexadecimal colours to RGB
 #' @export
-hex_to_rgb <- function(hex_colours, normalise = FALSE) {
+hex_to_rgb <- function(hex_colours) {
 
     stripped <- gsub(pattern = "#", replacement = "", x = hex_colours)
 
@@ -37,26 +37,18 @@ hex_to_rgb <- function(hex_colours, normalise = FALSE) {
         stop(paste("The following colours do not parse from hex to decimal.\n", paste(bad_colours, collapse = ", ")))
     }
 
-
-
-    if (normalise) {
-        return(tibble(red = strtoi(paste0("0x", substr(stripped, 1, 2))) / 255,
-                          green = strtoi(paste0("0x", substr(stripped, 3, 4))) / 255,
-                          blue = strtoi(paste0("0x", substr(stripped, 5, 6))) / 255))
-
-    } else {
-        return(tibble(red = strtoi(paste0("0x", substr(stripped, 1, 2))),
-                          green = strtoi(paste0("0x", substr(stripped, 3, 4))),
-                          blue = strtoi(paste0("0x", substr(stripped, 5, 6)))))
-    }
+    return(tibble(red = strtoi(paste0("0x", substr(stripped, 1, 2))),
+                  green = strtoi(paste0("0x", substr(stripped, 3, 4))),
+                  blue = strtoi(paste0("0x", substr(stripped, 5, 6)))))
 
 }
 
 #### RGB to XYZ to RGB
 # Conversion from RGB space to XYZ space
 #' @export
-rgb_to_xyz <- function(rgb, transformation = "Adobe", normalise = FALSE) {
+rgb_to_xyz <- function(rgb, transformation = "sRGB") {
 
+    # Extract transformation matrix or default matrix
     if (class(transformation) == "Matrix") {
         if (all(dim(transformation) == c(3L, 3L))) {
             m <- transformation
@@ -68,22 +60,41 @@ rgb_to_xyz <- function(rgb, transformation = "Adobe", normalise = FALSE) {
         m <- transformation_matrix[[transformation_match]]
     }
 
-    if (normalise) {
-        xyz <- as_tibble(t(apply(X = rgb / 255, MARGIN = 1, FUN = function(x) m %*% x)))
-        colnames(xyz) <- c("x", "y", "z")
-        return(xyz)
+    # Unlist RGB from data structure
+    temp_r <- unlist(rgb[[1]]) / 255
+    temp_g <- unlist(rgb[[2]]) / 255
+    temp_b <- unlist(rgb[[3]]) / 255
+
+
+    # Convert RGB space to linear speace
+    if (transformation_match == "sRGB") {
+        temp_r <- srgb_transformation(temp_r)
+        temp_g <- srgb_transformation(temp_g)
+        temp_b <- srgb_transformation(temp_b)
+    } else if (transformation_match == "Adobe") {
+        temp_r <- adobe_transformation(temp_r)
+        temp_g <- adobe_transformation(temp_g)
+        temp_b <- adobe_transformation(temp_b)
     } else {
-        xyz <- as_tibble(t(apply(X = rgb, MARGIN = 1, FUN = function(x) m %*% x)))
-        colnames(xyz) <- c("x", "y", "z")
-        return(xyz)
+        temp_r <- temp_r * 100
+        temp_g <- temp_g * 100
+        temp_b <- temp_b * 100
     }
+
+    # Apply linear transformation for RGB to XYZ
+    xyz <- tibble(x = temp_r * m[1, 1] + temp_g * m[1, 2] + temp_b * m[1, 3],
+                  y = temp_r * m[2, 1] + temp_g * m[2, 2] + temp_b * m[2, 3],
+                  z = temp_r * m[3, 1] + temp_g * m[3, 2] + temp_b * m[3, 3])
+
+    return(xyz)
 
 }
 
 # Conversion from XYZ space to RGB space
 #' @export
-xyz_to_rgb <- function(xyz, transformation = "Adobe", normalise = FALSE) {
+xyz_to_rgb <- function(xyz, transformation = "sRGB") {
 
+    # Extract transformation matrix or default type
     if (class(transformation) == "Matrix") {
         if (all(dim(transformation) == c(3L, 3L))) {
             m <- transformation
@@ -95,17 +106,68 @@ xyz_to_rgb <- function(xyz, transformation = "Adobe", normalise = FALSE) {
         m <- solve(transformation_matrix[[transformation_match]])
     }
 
-    if (normalise) {
-        rgb <- as_tibble(scale(t(apply(X = xyz, MARGIN = 1, FUN = function(x) m %*% x)), center = FALSE) * 255)
-        colnames(rgb) <- c("red", "green", "blue")
-        return(rgb)
+    # Unlist x, y, z from data structure
+    temp_x <- unlist(xyz[[1]]) / 100
+    temp_y <- unlist(xyz[[2]]) / 100
+    temp_z <- unlist(xyz[[3]]) / 100
+
+    # Linear transformation from converted XYZ to RGB
+    temp_r <- temp_x * m[1, 1] + temp_y * m[1, 2] + temp_z * m[1, 3]
+    temp_g <- temp_x * m[2, 1] + temp_y * m[2, 2] + temp_z * m[2, 3]
+    temp_b <- temp_x * m[3, 1] + temp_y * m[3, 2] + temp_z * m[3, 3]
+
+    # Convert to linear space
+    if (transformation_match == "sRGB") {
+        temp_r <- srgb_transformation_inverse(temp_r)
+        temp_g <- srgb_transformation_inverse(temp_g)
+        temp_b <- srgb_transformation_inverse(temp_b)
+    } else if (transformation_match == "Adobe") {
+        temp_r <- adobe_transformation_inverse(temp_r)
+        temp_g <- adobe_transformation_inverse(temp_g)
+        temp_b <- adobe_transformation_inverse(temp_b)
     } else {
-        rgb <- as_tibble(t(apply(X = xyz, MARGIN = 1, FUN = function(x) m %*% x)))
-        colnames(rgb) <- c("red", "green", "blue")
-        return(rgb)
+        temp_r <- temp_r * 255
+        temp_g <- temp_g * 255
+        temp_b <- temp_b * 255
     }
 
+    return(tibble(red = temp_r,
+                  green = temp_g,
+                  blue = temp_b))
+
 }
+
+
+# Conversion from sRGB to linear space
+srgb_transformation <- function(x) {
+    output <- ifelse(test = x > 0.04045,
+                     yes = ((x + 0.055) / 1.055) ^ 2.4,
+                     no = x / 12.92)
+    output <- output * 100
+    return(output)
+}
+
+# Conversion from XYZ to linear space
+srgb_transformation_inverse <- function(x) {
+    output <- ifelse(test = x > 0.0031308,
+                     yes = (1.055 * (x ^ (1 / 2.4))) - 0.055,
+                     no = x * 12.92)
+    output <- output * 255
+    return(output)
+}
+
+# Conversion from Adobe RGB to linear space
+adobe_transformation <- function(x) {
+    output <- (x ^ 2.19921875) * 100
+    return(output)
+}
+
+# Conversion from XYZ to linear space
+adobe_transformation_inverse <- function(x) {
+    output <- (x ^ (1 / 2.19921875)) * 255
+    return(output)
+}
+
 
 #### XYZ to Lab
 f <- function(num, dem) {
@@ -176,29 +238,29 @@ lab_to_xyz <- function(lab) {
 
 #### RGB/hex to Lab and RGB/hex to Lab
 #' @export
-rgb_to_lab <- function(rgb, transformation = "Adobe", normalise = FALSE) {
-    xyz <- rgb_to_xyz(rgb = rgb, transformation = transformation, normalise = normalise)
+rgb_to_lab <- function(rgb, transformation = "sRGB") {
+    xyz <- rgb_to_xyz(rgb = rgb, transformation = transformation)
     lab <- xyz_to_lab(xyz = xyz)
     return(lab)
 }
 
 #' @export
-lab_to_rgb <- function(lab, transformation = "Adobe", normalise = FALSE) {
+lab_to_rgb <- function(lab, transformation = "sRGB") {
     xyz <- lab_to_xyz(lab = lab)
-    rgb <- xyz_to_rgb(xyz = xyz, transformation = transformation, normalise = normalise)
+    rgb <- xyz_to_rgb(xyz = xyz, transformation = transformation)
     return(rgb)
 }
 
 #' @export
-hex_to_lab <- function(hex, transformation = "Adobe", normalise = FALSE) {
-    rgb <- hex_to_rgb(hex_colours = hex, normalise = normalise)
-    lab <- rgb_to_lab(rgb, transformation = transformation, normalise = normalise)
+hex_to_lab <- function(hex, transformation = "sRGB") {
+    rgb <- hex_to_rgb(hex_colours = hex)
+    lab <- rgb_to_lab(rgb, transformation = transformation)
     return(lab)
 }
 
 #' @export
-lab_to_hex <- function(lab, transformation = "Adobe", normalise = FALSE) {
-    rgb <- lab_to_rgb(lab = lab, transformation = transformation, normalise = normalise)
+lab_to_hex <- function(lab, transformation = "sRGB") {
+    rgb <- lab_to_rgb(lab = lab, transformation = transformation)
     hex <- rgb_to_hex(rgb)
     return(hex)
 }

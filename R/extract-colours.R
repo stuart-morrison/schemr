@@ -3,8 +3,7 @@
 #' @import magrittr
 #' @import dplyr
 #' @export
-img_to_pallette <- function(image_path, size_reduction = NULL, transformation = "Adobe",
-                            normalise = FALSE) {
+img_to_pallette <- function(image_path, size_reduction = NULL, transformation = "sRGB") {
 
 
     image <- readImage(image_path)
@@ -49,8 +48,7 @@ img_to_pallette <- function(image_path, size_reduction = NULL, transformation = 
     #TODO: Super slow through here
     full_colour_lab <- rgb_to_lab(rgb = full_colour %>%
                                       select(red, green, blue),
-                                  transformation = transformation,
-                                  normalise = normalise) %>%
+                                  transformation = transformation) %>%
                             bind_cols(labels %>% select(labels))
 
     # Find mean for each super pixel
@@ -87,8 +85,7 @@ img_to_pallette <- function(image_path, size_reduction = NULL, transformation = 
     #TODO: super slow through here
     full_colour_rgb_summarise <- lab_to_rgb(lab = full_colour_lab_summarise %>%
                                                     select(l, a, b),
-                                            transformation = transformation,
-                                            normalise = normalise) %>%
+                                            transformation = transformation) %>%
                                     bind_cols(full_colour_lab_summarise %>%
                                                   select(labels, cluster_index))
 
