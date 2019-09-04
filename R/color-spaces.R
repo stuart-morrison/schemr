@@ -1,40 +1,68 @@
 #### Colour space conversion functions ####
 
 #### RGB to hex and hex to RGB
+#' Convert RGB colour channels to hex colour codes.
 #' @importFrom stringr str_pad
 #' @export
+#' @param rgb A dataframe or matrix with red, green and blue colour channels located in the columns 1 to 3, respectively. Colour channel values should be between 0 and 255, inclusive.
+#' @return A character vector with hex representations of RGB colour channels.
+#' @examples
+#' red <- sample(x = 1:255, size = 10, replace = TRUE)
+#' green <- sample(x = 1:255, size = 10, replace = TRUE)
+#' blue <- sample(x = 1:255, size = 10, replace = TRUE)
+#' rgb_to_hex(data.frame(r = red, g = green, b = blue))
 rgb_to_hex <- function(rgb) {
 
-    if (any(unlist(rgb[ , 1]) < 0 | unlist(rgb[ , 1]) > 255) |
-        any(unlist(rgb[ , 2]) < 0 | unlist(rgb[ , 2]) > 255) |
-        any(unlist(rgb[ , 3]) < 0 | unlist(rgb[ , 3]) > 255)) {
+    # Extract colour channels from first three colummns
+    red <- unlist(rgb[ , 1])
+    green <- unlist(rgb[ , 2])
+    blue <- unlist(rgb[ , 3])
+
+    # Test if any RGB values are outside of [0, 255]
+    if (any(red < 0 | red > 255) |
+        any(green < 0 | green > 255) |
+        any(blue < 0 | blue > 255)) {
         stop("Colour channels should be between 0 and 255.")
     }
 
-    return(paste0("#", str_pad(string = as.hexmode(floor(unlist(rgb[ , 1]))), width = 2,
-                               pad = "0", side = "left"),
-                  str_pad(string = as.hexmode(floor(unlist(rgb[ , 2]))), width = 2,
-                          pad = "0", side = "left"),
-                  str_pad(string = as.hexmode(floor(unlist(rgb[ , 3]))), width = 2,
-                          pad = "0", side = "left")))
+    # Convert colour channels to hex
+    hex_value <- paste0("#",
+                        # Convert red
+                        str_pad(string = as.hexmode(round(red, 0)),
+                                width = 2, pad = "0", side = "left"),
+                        # Convert green
+                        str_pad(string = as.hexmode(round(green, 0)),
+                                width = 2, pad = "0", side = "left"),
+                        # Convert blue
+                        str_pad(string = as.hexmode(round(blue, 0)),
+                                width = 2, pad = "0", side = "left")
+                        )
+
+    return(hex_value)
 }
 
 #### Convert hexadecimal colours to RGB
+#' Convert hexadecimal colours to RGB colour channels.
 #' @export
-hex_to_rgb <- function(hex_colours) {
+#' @param hex A character vector containing hex representations of RGB colours.
+#' @return A tibble of red, green and blue colour channels.
+#' @examples
+#' hex_to_rgb(c("#5f9e3a"))
+hex_to_rgb <- function(hex) {
 
-    stripped <- gsub(pattern = "#", replacement = "", x = hex_colours)
+    # Take out any #s
+    stripped <- gsub(pattern = "#", replacement = "", x = hex)
 
-    # Test character lengther
+    # Test character length - each channel needs two hex digits
     if (!all(nchar(stripped) == 6)) {
         bad_colours <- which(nchar(stripped) != 6)
-        stop(paste("The following colours do not have six digits.\n", paste(bad_colours, collapse = ", ")))
+        stop(paste("The following colours do not have six digits:\n", paste(bad_colours, collapse = ", ")))
     }
 
     # Test all parse to numeric
     if (any(is.na(strtoi(paste0("0x", stripped))))) {
         bad_colours <- which(is.na(strtoi(paste0("0x", stripped))))
-        stop(paste("The following colours do not parse from hex to decimal.\n", paste(bad_colours, collapse = ", ")))
+        stop(paste("The following colours do not parse from hex to decimal:\n", paste(bad_colours, collapse = ", ")))
     }
 
     return(tibble(red = strtoi(paste0("0x", substr(stripped, 1, 2))),
@@ -44,8 +72,15 @@ hex_to_rgb <- function(hex_colours) {
 }
 
 #### RGB to XYZ to RGB
-# Conversion from RGB space to XYZ space
+#' Convert from RGB colour channels to XYZ space. 
 #' @export
+#' @param rgb A dataframe or matrix with red, green and blue colour channels located in the columns 1 to 3, respectively. Colour channel values should be between 0 and 255, inclusive.
+#' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
+#' @examples
+#' red <- sample(x = 1:255, size = 10, replace = TRUE)
+#' green <- sample(x = 1:255, size = 10, replace = TRUE)
+#' blue <- sample(x = 1:255, size = 10, replace = TRUE)
+#' rgb_to_xyz(data.frame(r = red, g = green, b = blue), transformation = "Adobe")
 rgb_to_xyz <- function(rgb, transformation = "sRGB") {
 
     # Extract transformation matrix or default matrix
@@ -82,9 +117,9 @@ rgb_to_xyz <- function(rgb, transformation = "sRGB") {
     }
 
     # Apply linear transformation for RGB to XYZ
-    xyz <- tibble(x = temp_r * m[1, 1] + temp_g * m[1, 2] + temp_b * m[1, 3],
-                  y = temp_r * m[2, 1] + temp_g * m[2, 2] + temp_b * m[2, 3],
-                  z = temp_r * m[3, 1] + temp_g * m[3, 2] + temp_b * m[3, 3])
+    xyz <- tibble(x = sum(c(temp_r, temp_g, temp_b) * m[1, ]),
+                  y = sum(c(temp_r, temp_g, temp_b) * m[2, ]),
+                  z = sum(c(temp_r, temp_g, temp_b) * m[3, ]))
 
     return(xyz)
 
