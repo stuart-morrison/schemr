@@ -123,9 +123,9 @@ rgb_to_xyz <- function(rgb, transformation = "sRGB", linear_func = NULL) {
     }
 
     # Apply linear transformation for RGB to XYZ
-    xyz <- tibble(x = sum(c(temp_r, temp_g, temp_b) * m[1, ]),
-                  y = sum(c(temp_r, temp_g, temp_b) * m[2, ]),
-                  z = sum(c(temp_r, temp_g, temp_b) * m[3, ]))
+    xyz <- tibble(x = temp_r * m[1, 1] + temp_g * m[1, 2] + temp_b * m[1, 3],
+                  y = temp_r * m[2, 1] + temp_g * m[2, 2] + temp_b * m[2, 3],
+                  z = temp_r * m[3, 1] + temp_g * m[3, 2] + temp_b * m[3, 3])
 
     return(xyz)
 
@@ -158,9 +158,9 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
     temp_z <- unlist(xyz[ , 3]) / 100
 
     # Linear transformation from converted XYZ to RGB
-    temp_r <- round(sum(c(temp_x, temp_y, temp_z) * m[1, ]), 16)
-    temp_g <- round(sum(c(temp_x, temp_y, temp_z) * m[2, ]), 16)
-    temp_b <- round(sum(c(temp_x, temp_y, temp_z) * m[3, ]), 16)
+    temp_r <- temp_x * m[1, 1] + temp_y * m[1, 2] + temp_z * m[1, 3]
+    temp_g <- temp_x * m[2, 1] + temp_y * m[2, 2] + temp_z * m[2, 3]
+    temp_b <- temp_x * m[3, 1] + temp_y * m[3, 2] + temp_z * m[3, 3]
 
     # Convert to non-linear RGB space
     if (transformation_match == "sRGB") {
