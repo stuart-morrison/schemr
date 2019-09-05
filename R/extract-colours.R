@@ -1,3 +1,4 @@
+#' Develop a usable colour palette form an image.
 #' @importFrom OpenImageR readImage resizeImage superpixels
 #' @import apcluster
 #' @import magrittr
