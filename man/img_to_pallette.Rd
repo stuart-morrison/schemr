@@ -7,7 +7,8 @@
 img_to_pallette(image_path, size_reduction = NULL,
   transformation = "sRGB", rgb_to_linear_func = NULL,
   rgb_to_nonlinear_func = NULL, method = "slic", superpixel = 200,
-  compactness = 20, verbose = TRUE, s = negDistMat(r = 2), ...)
+  compactness = 20, verbose = TRUE, s = negDistMat(r = 2),
+  summary_method = mean, ...)
 }
 \arguments{
 \item{image_path}{A character path to the image to cluster. Reads images of type .png, .jpeg, .jpg, .tiff.}
@@ -29,6 +30,8 @@ img_to_pallette(image_path, size_reduction = NULL,
 \item{verbose}{From \code{OpenImageR::superpixels}. A boolean. If TRUE then information will be printed in the R session.}
 
 \item{s}{From \code{apcluster::apcluster}. An l x l similarity matrix or a similarity function either specified as the name of a package-provided similarity function as character string or a user provided function object. s may also be a sparse matrix according to the Matrix package. Internally, apcluster uses the dgTMatrix class; all other sparse matrices are cast to this class (if possible, otherwise the function quits with an error). If s is any other object of class Matrix, s is cast to a regular matrix internally (if possible, otherwise the function quits with an error).}
+
+\item{summary_method}{Function to summarise colours in clustered superpixels. Defaults to \code{mean}.}
 
 \item{...}{Other arguments to be passed to the apcluster algorithm. For the methods with signatures character,ANY and function,ANY, all other arguments are passed to the selected similarity function as they are; for the methods with signatures Matrix,missing and sparseMatrix,missing, further arguments are passed on to the apcluster methods with signatures Matrix,missing and dgTMatrix,missing, respectively.}
 }

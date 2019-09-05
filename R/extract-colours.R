@@ -15,11 +15,12 @@
 #' @param compactness From \code{OpenImageR::superpixels}. A numeric value specifying the compactness parameter. The compactness parameter is needed only if method is "slic". The "slico" method adaptively chooses the compactness parameter for each superpixel differently.
 #' @param verbose From \code{OpenImageR::superpixels}. A boolean. If TRUE then information will be printed in the R session.
 #' @param s From \code{apcluster::apcluster}. An l x l similarity matrix or a similarity function either specified as the name of a package-provided similarity function as character string or a user provided function object. s may also be a sparse matrix according to the Matrix package. Internally, apcluster uses the dgTMatrix class; all other sparse matrices are cast to this class (if possible, otherwise the function quits with an error). If s is any other object of class Matrix, s is cast to a regular matrix internally (if possible, otherwise the function quits with an error).
+#' @param summary_method Function to summarise colours in clustered superpixels. Defaults to \code{mean}.
 #' @param ... Other arguments to be passed to the apcluster algorithm. For the methods with signatures character,ANY and function,ANY, all other arguments are passed to the selected similarity function as they are; for the methods with signatures Matrix,missing and sparseMatrix,missing, further arguments are passed on to the apcluster methods with signatures Matrix,missing and dgTMatrix,missing, respectively.
 #' @return A \code{schemr} object containing colour scheme colours and image properties and clusters.
 img_to_pallette <- function(image_path, size_reduction = NULL, transformation = "sRGB", rgb_to_linear_func = NULL,
                             rgb_to_nonlinear_func = NULL, method = "slic", superpixel = 200, compactness = 20,
-                            verbose = TRUE, s = negDistMat(r = 2), ...) {
+                            verbose = TRUE, s = negDistMat(r = 2), summary_method = mean, ...) {
 
     # Read image path
     image <- readImage(image_path)
@@ -96,9 +97,9 @@ img_to_pallette <- function(image_path, size_reduction = NULL, transformation = 
                                     left_join(cluster_data,
                                               by = c("labels")) %>%
                                         group_by(cluster_index) %>%
-                                        mutate(l = mean(l),
-                                                  a = mean(a),
-                                                  b = mean(b)) %>%
+                                        mutate(l = summary_method(l),
+                                               a = summary_method(a),
+                                               b = summary_method(b)) %>%
                                         ungroup()
 
     # Convert back to RGB space
