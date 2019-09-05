@@ -2,7 +2,7 @@
 % Please edit documentation in R/color-spaces.R
 \name{rgb_to_hex}
 \alias{rgb_to_hex}
-\title{Convert RGB colour channels to hex colour codes}
+\title{Convert RGB colour channels to hex colour codes.}
 \usage{
 rgb_to_hex(rgb)
 }
@@ -13,8 +13,11 @@ rgb_to_hex(rgb)
 A character vector with hex representations of RGB colour channels.
 }
 \description{
-Convert RGB colour channels to hex colour codes
+Convert RGB colour channels to hex colour codes.
 }
 \examples{
-rgb_to_hex(data.frame(r = 0, g = 255, b = 122))
+red <- sample(x = 1:255, size = 10, replace = TRUE)
+green <- sample(x = 1:255, size = 10, replace = TRUE)
+blue <- sample(x = 1:255, size = 10, replace = TRUE)
+rgb_to_hex(data.frame(r = red, g = green, b = blue))
 }

@@ -1,6 +1,6 @@
 #### Colour space constants
 # XYZ to RGB transformation matrices
-# Bruce Lindbloom, RGB/XYZ Matrices, http://brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
+# Source: Bruce Lindbloom, RGB/XYZ Matrices, http://brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
 transformation_matrix <-
     list(
         Adobe = structure(
@@ -21,7 +21,7 @@ transformation_matrix <-
 
 # Tristimulus values of the reference white point
 # Illuminant D65
-# https://en.wikipedia.org/wiki/CIELAB_color_space
+# Source: https://en.wikipedia.org/wiki/CIELAB_color_space
 x_n <- 95.0489
 y_n <- 100
 z_n <- 108.8840
