@@ -6,7 +6,7 @@
 #' @importFrom purrr map_df
 #' @export
 #' @param image_path A character path to the image to cluster. Reads images of type .png, .jpeg, .jpg, .tiff.
-#' @param size_reduction A numeric scalar that reduces (or increases) the size of the image before any processing.
+#' @param resize_factor A numeric scalar that reduces (or increases) the size of the image before any processing.
 #' @param transformation The clustering is undertaken in the Lab space. This is an an option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param rgb_to_linear_func The clustering is undertaken in the Lab space. This is a function to convert RGB colour space into linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @param rgb_to_nonlinear_func The clustering is undertaken in the Lab space. This is a function to convert linear RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
@@ -18,7 +18,7 @@
 #' @param summary_method Function to summarise colours in clustered superpixels. Defaults to \code{mean}.
 #' @param ... Other arguments to be passed to the apcluster algorithm. For the methods with signatures character,ANY and function,ANY, all other arguments are passed to the selected similarity function as they are; for the methods with signatures Matrix,missing and sparseMatrix,missing, further arguments are passed on to the apcluster methods with signatures Matrix,missing and dgTMatrix,missing, respectively.
 #' @return A \code{schemr} object containing colour scheme colours and image properties and clusters.
-img_to_pallette <- function(image_path, size_reduction = NULL, transformation = "sRGB", rgb_to_linear_func = NULL,
+img_to_pallette <- function(image_path, resize_factor = NULL, transformation = "sRGB", rgb_to_linear_func = NULL,
                             rgb_to_nonlinear_func = NULL, method = "slic", superpixel = 200, compactness = 20,
                             verbose = TRUE, s = negDistMat(r = 2), summary_method = mean, ...) {
 
@@ -26,9 +26,9 @@ img_to_pallette <- function(image_path, size_reduction = NULL, transformation = 
     image <- readImage(image_path)
 
     # Resize if necessary
-    if (!is.null(size_reduction)) {
-        new_height <- dim(image)[1] * size_reduction
-        new_width <- dim(image)[2] * size_reduction
+    if (!is.null(resize_factor)) {
+        new_height <- dim(image)[1] * resize_factor
+        new_width <- dim(image)[2] * resize_factor
         image %<>% resizeImage(image = ., width = new_width, height = new_height)
 
     }

@@ -4,7 +4,7 @@
 \alias{img_to_pallette}
 \title{Develop a usable colour palette form an image.}
 \usage{
-img_to_pallette(image_path, size_reduction = NULL,
+img_to_pallette(image_path, resize_factor = NULL,
   transformation = "sRGB", rgb_to_linear_func = NULL,
   rgb_to_nonlinear_func = NULL, method = "slic", superpixel = 200,
   compactness = 20, verbose = TRUE, s = negDistMat(r = 2),
@@ -13,7 +13,7 @@ img_to_pallette(image_path, size_reduction = NULL,
 \arguments{
 \item{image_path}{A character path to the image to cluster. Reads images of type .png, .jpeg, .jpg, .tiff.}
 
-\item{size_reduction}{A numeric scalar that reduces (or increases) the size of the image before any processing.}
+\item{resize_factor}{A numeric scalar that reduces (or increases) the size of the image before any processing.}
 
 \item{transformation}{The clustering is undertaken in the Lab space. This is an an option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.}
 

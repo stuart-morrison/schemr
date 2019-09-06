@@ -1,20 +1,13 @@
 # Create the schemr class, which holds the palette and image data
-setClass("schemr", representation(image = "array", clustered_image = "array",
-                                  palette = "character"))
+setRefClass(Class = "schemr",
+            fields = representation(
+                                    image = "array",
+                                    clustered_image = "array",
+                                    palette = "character"
+                                    )
+            )
 
-# Schemr print method
-print.schemr <- function(x) {
-    print(x@palette)
-}
-
-# Schemr plot method
-# Plot clustered version of the image
-plot.schemr <- function(x) {
-    (x@clustered_image / 255) %>%
-        as.raster() %>%
-        plot()
-}
-
-show.schemr <- function(x) {
-    print(x@palette)
-}
+# Set schemr class methods
+setMethod(f = "print", signature = "schemr", definition = function(x) x$palette)
+setMethod(f = "show", signature = "schemr", definition = function(x) print(x$palette))
+setMethod(f = "plot", signature = "schemr", definition = function(x) plot(as.raster((x$clustered_image / 255))))
