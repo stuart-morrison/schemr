@@ -14,3 +14,5 @@ Imports:
     stringr,
     ggplot2
 RoxygenNote: 6.1.1
+Suggests: 
+    testthat

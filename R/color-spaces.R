@@ -181,9 +181,9 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
         temp_b <- temp_b * 255
     }
 
-    return(tibble(red = temp_r,
-                  green = temp_g,
-                  blue = temp_b))
+    return(tibble(red = as.integer(temp_r),
+                  green = as.integer(temp_g),
+                  blue = as.integer(temp_b)))
 
 }
 
