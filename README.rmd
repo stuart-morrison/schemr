@@ -39,7 +39,7 @@ plot(as.raster(image))
 ```
 
 We see big blobs of blue and orange. Using schemr to extract these, we get:
-```{r echo=FALSE,message=FALSE,warning=FALSE}
+```{r message=FALSE,warning=FALSE}
 library(schemr)
 
 # Extract key colours from imageN

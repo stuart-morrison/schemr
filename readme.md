@@ -37,6 +37,17 @@ plot(as.raster(image))
 We see big blobs of blue and orange. Using schemr to extract these, we
 get:
 
+``` r
+library(schemr)
+
+# Extract key colours from imageN
+schemr_image <- img_to_pallette(image_path = "Images/camping.jpg", resize_factor = 0.4,
+                                verbose = FALSE, summary_method = median)
+
+# Plot the image
+plot(schemr_image)
+```
+
 ![](README_files/figure-markdown_github/unnamed-chunk-2-1.png)
 
 In addition, printing the class, shows the vector of hex RGB codes that
