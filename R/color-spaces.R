@@ -181,29 +181,29 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
         temp_b <- temp_b * 255
     }
 
-    return(tibble(red = as.integer(temp_r),
-                  green = as.integer(temp_g),
-                  blue = as.integer(temp_b)))
+    return(tibble(red = round(temp_r),
+                  green = round(temp_g),
+                  blue = round(temp_b)))
 
 }
 
 
 # Conversion from sRGB to linear space
-# Source: https://en.wikipedia.org/wiki/SRGB.
+# Source: https://en.wikipedia.org/wiki/SRGB; https://entropymine.com/imageworsener/srgbformula/.
 srgb_transformation <- function(x) {
-    output <- ifelse(test = x > 0.04045,
+    output <- ifelse(test = x > 0.0404482362771082,
                      yes = ((x + 0.055) / 1.055) ^ 2.4,
-                     no = x / 12.92)
+                     no = x / 12.92321)
     output <- output * 100
     return(output)
 }
 
 # Conversion from XYZ to linear space
-# Source: https://en.wikipedia.org/wiki/SRGB.
+# Source: https://en.wikipedia.org/wiki/SRGB; https://entropymine.com/imageworsener/srgbformula/.
 srgb_transformation_inverse <- function(x) {
-    output <- ifelse(test = x > 0.0031308,
+    output <- ifelse(test = x > 0.00313066844250063,
                      yes = (1.055 * (x ^ (1 / 2.4))) - 0.055,
-                     no = x * 12.92)
+                     no = x * 12.92321)
     output <- output * 255
     return(output)
 }
