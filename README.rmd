@@ -39,12 +39,12 @@ plot(as.raster(image))
 ```
 
 We see big blobs of blue and orange. Using schemr to extract these, we get:
-```{r }
+```{r echo=FALSE,message=FALSE,warning=FALSE}
 library(schemr)
 
-# Extract key colours from image
+# Extract key colours from imageN
 schemr_image <- img_to_pallette(image_path = "Images/camping.jpg", resize_factor = 0.4,
-                                verbose = FALSE)
+                                verbose = FALSE, summary_method = median)
 
 # Plot the image
 plot(schemr_image)

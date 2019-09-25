@@ -37,21 +37,6 @@ plot(as.raster(image))
 We see big blobs of blue and orange. Using schemr to extract these, we
 get:
 
-``` r
-library(schemr)
-
-# Extract key colours from image
-schemr_image <- img_to_pallette(image_path = "Images/camping.jpg", resize_factor = 0.4,
-                                verbose = FALSE)
-```
-
-    ## WARNING: The input data has values between 0.000000 and 1.000000. The image-data will be multiplied by the value: 255!
-
-``` r
-# Plot the image
-plot(schemr_image)
-```
-
 ![](README_files/figure-markdown_github/unnamed-chunk-2-1.png)
 
 In addition, printing the class, shows the vector of hex RGB codes that
@@ -61,6 +46,6 @@ make up the clustered data:
 schemr_image
 ```
 
-    ##  [1] "#909692" "#747a72" "#66675b" "#5b5b52" "#686163" "#888187" "#787279"
-    ##  [8] "#5b565b" "#aba8a8" "#707460" "#7b6d6a" "#a2575b" "#434249" "#6381bb"
-    ## [15] "#57a6c3" "#5c718e"
+    ##  [1] "#989a99" "#6f7571" "#606056" "#53514a" "#5f595b" "#8e878e" "#797379"
+    ##  [8] "#4f494d" "#bababa" "#6e715d" "#756868" "#af4e56" "#28272c" "#4d8cd9"
+    ## [15] "#53bce3" "#4e627e"
