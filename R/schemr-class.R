@@ -16,3 +16,4 @@ setRefClass(Class = "schemr",
 # Set plot method for schemr class
 #' @exportMethod plot
 setMethod(f = "plot", signature = "schemr", definition = function(x, y = NULL, ...) plot(as.raster((x$clustered_image / 255)), ...))
+
