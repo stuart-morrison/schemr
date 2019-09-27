@@ -8,8 +8,8 @@ hex_codes <- c("#008698", "#232C31",  "#b5a991", "#c94b20", "#696A6D", "#A79344"
 
 
 test_that("Colour space conversions go through", {
-          # expect_equal(lab_to_hex(hex_to_lab(hex_codes)), tolower(hex_codes))
-          # expect_equal(lab_to_hex(hex_to_lab(hex_codes, transformation = "Adobe"), transformation = "Adobe"), tolower(hex_codes))
+          expect_equal(lab_to_hex(hex_to_lab(hex_codes)), tolower(hex_codes))
+          expect_equal(lab_to_hex(hex_to_lab(hex_codes, transformation = "Adobe"), transformation = "Adobe"), tolower(hex_codes))
           expect_equal(lab_to_rgb(rgb_to_lab(hex_to_rgb(hex_codes))), hex_to_rgb(hex_codes))
           expect_equal(lab_to_rgb(rgb_to_lab(hex_to_rgb(hex_codes), transformation = "Adobe"), transformation = "Adobe"), hex_to_rgb(hex_codes))
           })

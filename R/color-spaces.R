@@ -149,7 +149,7 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
         }
     } else {
         transformation_match <- match.arg(transformation, names(transformation_matrix), several.ok = FALSE)
-        m <- solve(transformation_matrix[[transformation_match]])
+        m <- transformation_matrix_inverse[[transformation_match]]
     }
 
     # Unlist x, y, z from data structure
