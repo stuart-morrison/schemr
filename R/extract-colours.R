@@ -18,9 +18,9 @@
 #' @param summary_method Function to summarise colours in clustered superpixels. Defaults to \code{mean}.
 #' @param ... Other arguments to be passed to the apcluster algorithm. For the methods with signatures character,ANY and function,ANY, all other arguments are passed to the selected similarity function as they are; for the methods with signatures Matrix,missing and sparseMatrix,missing, further arguments are passed on to the apcluster methods with signatures Matrix,missing and dgTMatrix,missing, respectively.
 #' @return A \code{schemr} object containing colour scheme colours and image properties and clusters.
-img_to_pallette <- function(image_path, resize_factor = NULL, transformation = "sRGB", rgb_to_linear_func = NULL,
-                            rgb_to_nonlinear_func = NULL, method = "slic", superpixel = 200, compactness = 20,
-                            verbose = TRUE, s = negDistMat(r = 2), summary_method = mean, ...) {
+image_to_pallette <- function(image_path, resize_factor = NULL, transformation = "sRGB", rgb_to_linear_func = NULL,
+                              rgb_to_nonlinear_func = NULL, method = "slic", superpixel = 200, compactness = 20,
+                              verbose = TRUE, s = negDistMat(r = 2), summary_method = mean, ...) {
 
     # Read image path
     image <- readImage(image_path)

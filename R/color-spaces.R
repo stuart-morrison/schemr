@@ -158,9 +158,9 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
     temp_z <- unlist(xyz[ , 3]) / 100
 
     # Linear transformation from converted XYZ to RGB
-    temp_r <- temp_x * m[1, 1] + temp_y * m[1, 2] + temp_z * m[1, 3]
-    temp_g <- temp_x * m[2, 1] + temp_y * m[2, 2] + temp_z * m[2, 3]
-    temp_b <- temp_x * m[3, 1] + temp_y * m[3, 2] + temp_z * m[3, 3]
+    temp_r <- pmax(temp_x * m[1, 1] + temp_y * m[1, 2] + temp_z * m[1, 3], 0)
+    temp_g <- pmax(temp_x * m[2, 1] + temp_y * m[2, 2] + temp_z * m[2, 3], 0)
+    temp_b <- pmax(temp_x * m[3, 1] + temp_y * m[3, 2] + temp_z * m[3, 3], 0)
 
     # Convert to non-linear RGB space
     if (transformation_match == "sRGB") {
@@ -181,9 +181,9 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
         temp_b <- temp_b * 255
     }
 
-    return(tibble(red = round(temp_r),
-                  green = round(temp_g),
-                  blue = round(temp_b)))
+    return(tibble(red = as.integer(temp_r),
+                  green = as.integer(temp_g),
+                  blue = as.integer(temp_b)))
 
 }
 
@@ -347,6 +347,30 @@ hex_to_lab <- function(hex, transformation = "sRGB", linear_func = NULL) {
 #' @return A character vector with hex representations of RGB colour channels.
 lab_to_hex <- function(lab, transformation = "sRGB", linear_func = NULL) {
     rgb <- lab_to_rgb(lab = lab, transformation = transformation, linear_func = linear_func)
+    hex <- rgb_to_hex(rgb)
+    return(hex)
+}
+
+#' Convert hex RGB values to XYZ space.
+#' @export
+#' @param hex A character vector containing hex representations of RGB colours.
+#' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
+#' @param linear_func A function to convert RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
+#' @return A \code{tibble} of X, Y and Z colour space values.
+hex_to_xyz <- function(hex, transformation = "sRGB", linear_func = NULL) {
+    rgb <- hex_to_rgb(hex = hex)
+    lab <- rgb_to_xyz(rgb, transformation = transformation, linear_func = linear_func)
+    return(lab)
+}
+
+#' Convert from XYZ space into hex RGB colour values.
+#' @export
+#' @param xyz A dataframe or matrix with X, Y and Z colour channels located in the columns 1 to 3, respectively.
+#' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
+#' @param linear_func A function to convert RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
+#' @return A character vector with hex representations of RGB colour channels.
+xyz_to_hex <- function(xyz, transformation = "sRGB", linear_func = NULL) {
+    rgb <- xyz_to_rgb(xyz = xyz, transformation = transformation, linear_func = linear_func)
     hex <- rgb_to_hex(rgb)
     return(hex)
 }

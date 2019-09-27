@@ -5,7 +5,7 @@
 # import numpy as np
 # import colour
 #
-# np.set_printoptions(formatter={'float': '{:0.15f}'.format})
+# np.set_printoptions(formatter={'float': '{:0.20f}'.format})
 # colour.models.sRGB_COLOURSPACE.use_derived_transformation_matrices(True)
 # colour.models.ADOBE_RGB_1998_COLOURSPACE.use_derived_transformation_matrices(True)
 # print(colour.models.sRGB_COLOURSPACE.RGB_to_XYZ_matrix)
@@ -14,16 +14,16 @@
 transformation_matrix <-
     list(
         Adobe = structure(
-            c(0.576669042910130, 0.297344975250536, 0.027031361386412,
-              0.185558237906546, 0.627363566255466, 0.075291458493998,
-              0.188228646234995, 0.075291458493998, 0.991337536837639),
+            c(0.57666904291013043604, 0.29734497525053604772, 0.02703136138641233990,
+              0.18555823790654629724, 0.62736356625546607635, 0.07068885253582722628,
+              0.18822864623499471759, 0.07529145849399788981, 0.99133753683763892184),
             .Dim = c(3L, 3L),
             .Dimnames = list(NULL, NULL)
         ),
         sRGB = structure(
-            c(0.412390799265960, 0.212639005871510, 0.019330818715592,
-              0.357584339383878, 0.715168678767756, 0.119194779794626,
-              0.180480788401834, 0.072192315360734, 0.950532152249661),
+            c(0.41239079926595950676, 0.21263900587151038368, 0.01933081871559183193,
+              0.35758433938387801376, 0.71516867876775602753, 0.11919477979462597683,
+              0.18048078840183431892, 0.07219231536073372757, 0.95053215224966081109),
             .Dim = c(3L, 3L),
             .Dimnames = list(NULL, NULL)
         )
@@ -35,7 +35,7 @@ transformation_matrix <-
 # import numpy as np
 # import colour
 #
-# np.set_printoptions(formatter={'float': '{:0.15f}'.format})
+# np.set_printoptions(formatter={'float': '{:0.20f}'.format})
 # colour.models.sRGB_COLOURSPACE.use_derived_transformation_matrices(True)
 # colour.models.ADOBE_RGB_1998_COLOURSPACE.use_derived_transformation_matrices(True)
 # print(colour.models.sRGB_COLOURSPACE.XYZ_to_RGB_matrix)
@@ -44,17 +44,17 @@ transformation_matrix <-
 transformation_matrix_inverse <-
     list(
         Adobe = structure(
-            c(2.041587903810747, -0.969243636280880, 0.013444280632031,
-              -0.565006974278860, 1.875967501507721, -0.118362392231018,
-              -0.344731350778330, 0.041555057407176, 1.015174994391205),
+            c(2.04158790381074695119, -0.96924363628087994993, 0.01344428063203114906,
+              -0.56500697427885993029, 1.87596750150772062504, -0.11836239223101836793,
+              -0.34473135077832967044, 0.04155505740717563984, 1.01517499439120539861),
             .Dim = c(3L, 3L),
             .Dimnames = list(NULL, NULL)
         ),
 
         sRGB = structure(
-            c(3.240969941904521, -0.969243636280880, 0.055630079696994,
-             -1.537383177570093, 1.875967501507720, -0.203976958888977,
-             -0.498610760293003, 0.041555057407176, 1.056971514242878),
+            c(3.24096994190452125650, -0.96924363628087972788, 0.05563007969699364924,
+             -1.53738317757009324005, 1.87596750150772040300, -0.20397695888897651728,
+             -0.49861076029300327450, 0.04155505740717560514, 1.05697151424287838495),
             .Dim = c(3L, 3L),
             .Dimnames = list(NULL, NULL)
         )
