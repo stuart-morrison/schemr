@@ -2,11 +2,10 @@ Package: schemr
 Type: Package
 Title: Convert images to useable colour schemes
 Version: 0.1.0
-Author: person("Stuart", "Morrison", email = "first.last@example.com",
+Authors@R: person("Stuart", "Morrison", email = "stuart@spheric.al",
                   role = c("aut", "cre"))
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: schemr is an R package for turning your photos into usable colour schemes for R visualisations.
+License: MIT
 Encoding: UTF-8
 LazyData: true
 Imports:
