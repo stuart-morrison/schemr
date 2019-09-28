@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/stuart-morrison/schemr.svg?branch=master)](https://travis-ci.org/stuart-morrison/schemr)
+
 `schemr` package
 ================
 
