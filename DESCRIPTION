@@ -11,7 +11,11 @@ LazyData: true
 Imports:
     dplyr,
     stringr,
-    ggplot2
+    ggplot2,
+    magrittr,
+    purrr,
+    apcluster,
+    OpenImageR
 RoxygenNote: 6.1.1
 Suggests: 
     testthat
