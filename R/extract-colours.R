@@ -29,7 +29,7 @@ image_to_pallette <- function(image_path, resize_factor = NULL, transformation =
     if (!is.null(resize_factor)) {
         new_height <- dim(image)[1] * resize_factor
         new_width <- dim(image)[2] * resize_factor
-        image %<>% resizeImage(image = ., width = new_width, height = new_height)
+        image %<>% resizeImage(image = ., width = new_height, height = new_width)
 
     }
 

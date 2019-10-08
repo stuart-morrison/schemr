@@ -9,7 +9,7 @@ Convert photos into useable colour schemes
 `schemr` is an R package for turning your photos into usable colour
 schemes for R visualisations.
 
-The key driver is the `img_to_pallette` function, which:
+The key driver is the `image_to_pallette` function, which:
 
 -   reads in images;
 -   finds colour blobs within the image, representing the key
