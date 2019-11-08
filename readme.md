@@ -28,16 +28,16 @@ library(magrittr)
 # Read in the image
 image <- readImage(path = "Images/camping.jpg")
 
-# Shrink down the image
+# Shrink down the image - Note resizeImage width and height are on array dimensions, rather than on image dimensions
 new_height <- dim(image)[1] * 0.4
 new_width <- dim(image)[2] * 0.4
-image %<>% resizeImage(image = ., width = new_width, height = new_height)
+image %<>% resizeImage(image = ., width = new_height, height = new_width)
 
 # Plot
 plot(as.raster(image))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-1-1.png)
+![](README_files/figure-markdown_github/camping_small.png)
 
 We see big blobs of blue and orange. Using schemr to extract these, we
 get:
@@ -53,7 +53,7 @@ schemr_image <- image_to_pallette(image_path = "Images/camping.jpg", resize_fact
 plot(schemr_image)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-2-1.png)
+![](README_files/figure-markdown_github/camping_schemr.png)
 
 In addition, printing the class, shows the vector of hex RGB codes that
 make up the clustered data:
