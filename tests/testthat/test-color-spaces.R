@@ -15,9 +15,21 @@ test_that("Colour space conversions pass without error", {
           expect_equal(sum(is.na(lab_to_hex(hex_to_lab(hex_codes, transformation = "Adobe"), transformation = "Adobe"))), 0)
           })
 
-# Test simple conversions
-test_that("Colour space conversions and back again", {
+### Test simple conversions
+# sRGB
+test_that("Colour space conversions and back again with sRGB", {
           expect_equal(rgb_to_hex(hex_to_rgb(hex_codes)), tolower(hex_codes))
+          expect_equal(xyz_to_hex(hex_to_xyz(hex_codes)), tolower(hex_codes))
+          expect_equal(lab_to_hex(hex_to_lab(hex_codes)), tolower(hex_codes))
           })
+
+# Adobe
+test_that("Colour space conversions and back again with sRGB", {
+          expect_equal(xyz_to_hex(hex_to_xyz(hex_codes, transformation = "Adobe"), transformation = "Adobe"), tolower(hex_codes))
+          expect_equal(lab_to_hex(hex_to_lab(hex_codes, transformation = "Adobe"), transformation = "Adobe"), tolower(hex_codes))
+          })
+
+
+
 
 

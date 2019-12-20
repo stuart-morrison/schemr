@@ -181,9 +181,9 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
         temp_b <- temp_b * 255
     }
 
-    return(tibble(red = as.integer(temp_r),
-                  green = as.integer(temp_g),
-                  blue = as.integer(temp_b)))
+    return(tibble(red = as.integer(round(temp_r, 0)),
+                  green = as.integer(round(temp_g, 0)),
+                  blue = as.integer(round(temp_b, 0))))
 
 }
 
@@ -193,7 +193,7 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
 srgb_transformation <- function(x) {
     output <- ifelse(test = x > 0.0404482362771082,
                      yes = ((x + 0.055) / 1.055) ^ 2.4,
-                     no = x / 12.92321)
+                     no = x / 12.92)
     output <- output * 100
     return(output)
 }
@@ -203,7 +203,7 @@ srgb_transformation <- function(x) {
 srgb_transformation_inverse <- function(x) {
     output <- ifelse(test = x > 0.00313066844250063,
                      yes = (1.055 * (x ^ (1 / 2.4))) - 0.055,
-                     no = x * 12.92321)
+                     no = x * 12.92)
     output <- output * 255
     return(output)
 }
