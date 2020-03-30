@@ -4,11 +4,20 @@
 \alias{image_to_pallette}
 \title{Develop a usable colour palette form an image.}
 \usage{
-image_to_pallette(image_path, resize_factor = NULL,
-  transformation = "sRGB", rgb_to_linear_func = NULL,
-  rgb_to_nonlinear_func = NULL, method = "slic", superpixel = 200,
-  compactness = 20, verbose = TRUE, s = negDistMat(r = 2),
-  summary_method = mean, ...)
+image_to_pallette(
+  image_path,
+  resize_factor = NULL,
+  transformation = "sRGB",
+  rgb_to_linear_func = NULL,
+  rgb_to_nonlinear_func = NULL,
+  method = "slic",
+  superpixel = 200,
+  compactness = 20,
+  verbose = TRUE,
+  s = negDistMat(r = 2),
+  summary_method = mean,
+  ...
+)
 }
 \arguments{
 \item{image_path}{A character path to the image to cluster. Reads images of type .png, .jpeg, .jpg, .tiff.}

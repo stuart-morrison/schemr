@@ -17,54 +17,87 @@ The key driver is the `image_to_pallette` function, which:
 -   uses affinity propagation clustering to condense the set of key
     colours.
 
+### Installing `schemr`
+
+The development version of `schemr` can be installed by running:
+``` r
+devtools::install_github("stuart-morrison/schemr")
+```
+
 ### Photo example
 
-First we have a look at a photo of me camping.
+First we have a look at a photo of my beautiful old car.
 
 ``` r
 library(OpenImageR)
 library(magrittr)
 
 # Read in the image
-image <- readImage(path = "Images/camping.jpg")
+image <- readImage(path = "images/car.jpg")
 
 # Shrink down the image - Note resizeImage width and height are on array dimensions, rather than on image dimensions
-new_height <- dim(image)[1] * 0.4
-new_width <- dim(image)[2] * 0.4
+new_height <- dim(image)[1] * 0.5
+new_width <- dim(image)[2] * 0.5
 image %<>% resizeImage(image = ., width = new_height, height = new_width)
 
 # Plot
 plot(as.raster(image))
 ```
 
-![](README_files/figure-markdown_github/camping_small.png)
+![](README_files/figure-markdown_github/car_small.jpg)
 
-We see big blobs of blue and orange. Using schemr to extract these, we
+We see big blobs of blue, yellow and orange. Using schemr to extract these, we
 get:
 
 ``` r
 library(schemr)
 
-# Extract key colours from imageN
-schemr_image <- image_to_pallette(image_path = "Images/camping.jpg", resize_factor = 0.4,
+# Extract key colours from image
+# I use the median to extract the centre of each 'blob' - but any function summary function, eg, mean, max, min, will all work
+schemr_data <- image_to_pallette(image_path = "images/car.jpg", resize_factor = 0.5,
                                   verbose = FALSE, summary_method = median)
 
 # Plot the image
-plot(schemr_image)
+plot(schemr_data)
 ```
 
-![](README_files/figure-markdown_github/camping_schemr.png)
+![](README_files/figure-markdown_github/car_clustered.jpg)
+
+We can see the palette of colours found in the image by using the `palette` method on the schemr data.
+
+``` r
+palette(schemr_data)
+```
+![](README_files/figure-markdown_github/car_palette.jpg)
 
 In addition, printing the class, shows the vector of hex RGB codes that
 make up the clustered data:
 
 ``` r
-schemr_image
+schemr_data
 ```
 
-    ##  [1] "#979a99" "#6e7571" "#605f55" "#52504a" "#5f595a" "#8e878e" "#787279"
-    ##  [8] "#4f494d" "#b9b9b9" "#6e705c" "#756867" "#af4e55" "#28262b" "#4d8cd8"
-    ## [15] "#53bce2" "#4e627e"
+    ## [1] "#010101" "#201c16" "#524511" "#8a8664" "#f1c01e"
+    ## [6] "#997520" "#463316" "#3f4b49" "#848aa7" "#5d4e55"
+    ## [11] "#10211e" "#964227" "#ffffff" "#297d7f"
+
+### Using `schemr` palettes in plots
+
+The evaluated palette is easy to apply immediately into data visualisation by access through the `palette` attribute.
+
+``` r
+# Example plot using the iris data set
+ggplot() +
+    geom_point(data = iris,
+               aes(x = Petal.Length, y = Petal.Width,
+                   col = Species),
+               size = 4) +
+    scale_color_manual(name = "Species",
+                       values = schemr_data$palette[c(5, 12, 14)]) +
+    labs(x = "Petal length", y = "Petal width") +
+    theme_bw(base_size = 18)
+```
+![](README_files/figure-markdown_github/car_ggplot.jpg)
 
 ### Colour space conversions
 
