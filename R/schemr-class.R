@@ -1,7 +1,6 @@
 # Create the schemr class, which holds the palette and image data
 #' @importFrom graphics plot barplot text
 #' @importFrom grDevices as.raster
-#' @importFrom methods new
 #' @exportClass schemr
 #' @field image An array of dimention (Image width) by (Image height) by (3 colour channels) that contains the data of the original image
 #' @field clustered_image An array of dimention (Image width) by (Image height) by (3 colour channels) that contains the data of the image with clustered colour blocks
