@@ -14,9 +14,9 @@
 rgb_to_hex <- function(rgb) {
 
     # Extract colour channels from first three colummns
-    red <- unlist(rgb[ , 1])
-    green <- unlist(rgb[ , 2])
-    blue <- unlist(rgb[ , 3])
+    red <- unlist(rgb[ , 1], FALSE, FALSE)
+    green <- unlist(rgb[ , 2], FALSE, FALSE)
+    blue <- unlist(rgb[ , 3], FALSE, FALSE)
 
     # Test if any RGB values are outside of [0, 255]
     if (any(red < 0 | red > 255) |
@@ -98,9 +98,9 @@ rgb_to_xyz <- function(rgb, transformation = "sRGB", linear_func = NULL) {
     }
 
     # Unlist RGB from data structure
-    temp_r <- unlist(rgb[ , 1]) / 255
-    temp_g <- unlist(rgb[ , 2]) / 255
-    temp_b <- unlist(rgb[ , 3]) / 255
+    temp_r <- unlist(rgb[ , 1], FALSE, FALSE) / 255
+    temp_g <- unlist(rgb[ , 2], FALSE, FALSE) / 255
+    temp_b <- unlist(rgb[ , 3], FALSE, FALSE) / 255
 
 
     # Convert RGB space to linear speace
@@ -153,9 +153,9 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
     }
 
     # Unlist x, y, z from data structure
-    temp_x <- unlist(xyz[ , 1]) / 100
-    temp_y <- unlist(xyz[ , 2]) / 100
-    temp_z <- unlist(xyz[ , 3]) / 100
+    temp_x <- unlist(xyz[ , 1], FALSE, FALSE) / 100
+    temp_y <- unlist(xyz[ , 2], FALSE, FALSE) / 100
+    temp_z <- unlist(xyz[ , 3], FALSE, FALSE) / 100
 
     # Linear transformation from converted XYZ to RGB
     temp_r <- pmax(temp_x * m[1, 1] + temp_y * m[1, 2] + temp_z * m[1, 3], 0)
@@ -254,9 +254,9 @@ xyz_to_lab <- function(xyz) {
         stop("XYZ colours should be a matrix or tibble with three columns.")
     }
 
-    colours_lab <- tibble(l = l_star(.y = unlist(xyz[ , 2]), .y_n = y_n, .f = f),
-                          a = a_star(.x = unlist(xyz[ , 1]), .x_n = x_n, .y = unlist(xyz[ , 2]), .y_n = y_n, .f = f),
-                          b = b_star(.y = unlist(xyz[ , 2]), .y_n = y_n, .z = unlist(xyz[ , 3]), .z_n = z_n, .f = f))
+    colours_lab <- tibble(l = l_star(.y = unlist(xyz[ , 2], FALSE, FALSE), .y_n = y_n, .f = f),
+                          a = a_star(.x = unlist(xyz[ , 1], FALSE, FALSE), .x_n = x_n, .y = unlist(xyz[ , 2], FALSE, FALSE), .y_n = y_n, .f = f),
+                          b = b_star(.y = unlist(xyz[ , 2], FALSE, FALSE), .y_n = y_n, .z = unlist(xyz[ , 3], FALSE, FALSE), .z_n = z_n, .f = f))
 
     return(colours_lab)
 }
@@ -284,15 +284,15 @@ lab_to_z <- function(.l, .b, .z_n, .f_inv) {
 
 #' Convert from Lab space to XYZ colour channels.
 #' @export
-#' @param Lab A dataframe or matrix with L, a and b colour channels located in the columns 1 to 3, respectively.
+#' @param lab A dataframe or matrix with L, a and b colour channels located in the columns 1 to 3, respectively.
 lab_to_xyz <- function(lab) {
     if (ncol(lab) != 3) {
         stop("Lab colours should be a matrix or tibble with three columns.")
     }
 
-    colours_xyz <- tibble(x = lab_to_x(.l = unlist(lab[ , 1]), .a = unlist(lab[ , 2]), .x_n = x_n, .f_inv = f_inv),
-                          y = lab_to_y(.l = unlist(lab[ , 1]), .y_n = y_n, .f_inv = f_inv),
-                          z = lab_to_z(.l = unlist(lab[ , 1]), .b = unlist(lab[ , 3]), .z_n = z_n, .f_inv = f_inv))
+    colours_xyz <- tibble(x = lab_to_x(.l = unlist(lab[ , 1], FALSE, FALSE), .a = unlist(lab[ , 2], FALSE, FALSE), .x_n = x_n, .f_inv = f_inv),
+                          y = lab_to_y(.l = unlist(lab[ , 1], FALSE, FALSE), .y_n = y_n, .f_inv = f_inv),
+                          z = lab_to_z(.l = unlist(lab[ , 1], FALSE, FALSE), .b = unlist(lab[ , 3], FALSE, FALSE), .z_n = z_n, .f_inv = f_inv))
     return(colours_xyz)
 
 }

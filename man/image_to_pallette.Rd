@@ -7,7 +7,7 @@
 image_to_pallette(
   image_path,
   resize_factor = NULL,
-  transformation = "sRGB",
+  colour_space = "sRGB",
   rgb_to_linear_func = NULL,
   rgb_to_nonlinear_func = NULL,
   method = "slic",
@@ -24,7 +24,7 @@ image_to_pallette(
 
 \item{resize_factor}{A numeric scalar that reduces (or increases) the size of the image before any processing.}
 
-\item{transformation}{The clustering is undertaken in the Lab space. This is an an option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.}
+\item{colour_space}{The colour space of the original image. The clustering is undertaken in the Lab space. This is an an option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.}
 
 \item{rgb_to_linear_func}{The clustering is undertaken in the Lab space. This is a function to convert RGB colour space into linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.}
 

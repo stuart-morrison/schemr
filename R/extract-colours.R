@@ -7,7 +7,7 @@
 #' @export
 #' @param image_path A character path to the image to cluster. Reads images of type .png, .jpeg, .jpg, .tiff.
 #' @param resize_factor A numeric scalar that reduces (or increases) the size of the image before any processing.
-#' @param transformation The clustering is undertaken in the Lab space. This is an an option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
+#' @param colour_space The colour space of the original image. The clustering is undertaken in the Lab space. This is an an option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param rgb_to_linear_func The clustering is undertaken in the Lab space. This is a function to convert RGB colour space into linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @param rgb_to_nonlinear_func The clustering is undertaken in the Lab space. This is a function to convert linear RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @param method From \code{OpenImageR::superpixels}. A character string specifying the method to use. Either "slic" or "slico".
@@ -18,7 +18,7 @@
 #' @param summary_method Function to summarise colours in clustered superpixels. Defaults to \code{mean}.
 #' @param ... Other arguments to be passed to the apcluster algorithm. For the methods with signatures character,ANY and function,ANY, all other arguments are passed to the selected similarity function as they are; for the methods with signatures Matrix,missing and sparseMatrix,missing, further arguments are passed on to the apcluster methods with signatures Matrix,missing and dgTMatrix,missing, respectively.
 #' @return A \code{schemr} object containing colour scheme colours and image properties and clusters.
-image_to_pallette <- function(image_path, resize_factor = NULL, transformation = "sRGB", rgb_to_linear_func = NULL,
+image_to_pallette <- function(image_path, resize_factor = NULL, colour_space = "sRGB", rgb_to_linear_func = NULL,
                               rgb_to_nonlinear_func = NULL, method = "slic", superpixel = 200, compactness = 20,
                               verbose = TRUE, s = negDistMat(r = 2), summary_method = mean, ...) {
 
@@ -65,10 +65,10 @@ image_to_pallette <- function(image_path, resize_factor = NULL, transformation =
                              blue %>% select(blue),
                              labels %>% select(labels))
 
-    # Convert to Lab sapces
+    # Convert to Lab spaces
     full_colour_lab <- rgb_to_lab(rgb = full_colour %>%
                                       select(red, green, blue),
-                                  transformation = transformation,
+                                  transformation = colour_space,
                                   linear_func = rgb_to_linear_func) %>%
                             bind_cols(labels %>% select(labels))
 
@@ -105,7 +105,7 @@ image_to_pallette <- function(image_path, resize_factor = NULL, transformation =
     # Convert back to RGB space
     full_colour_rgb_summarise <- lab_to_rgb(lab = full_colour_lab_summarise %>%
                                                     select(l, a, b),
-                                            transformation = transformation,
+                                            transformation = colour_space,
                                             linear_func = rgb_to_nonlinear_func) %>%
                                     bind_cols(full_colour_lab_summarise %>%
                                                   select(labels, cluster_index))
