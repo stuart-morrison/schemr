@@ -10,9 +10,9 @@ Create the schemr class, which holds the palette and image data
 \section{Fields}{
 
 \describe{
-\item{\code{image}}{An array of dimention (Image width) by (Image height) by (3 colour channels) that contains the data of the original image}
+\item{\code{image}}{An array of dimension (Image width) by (Image height) by (3 colour channels) that contains the data of the original image}
 
-\item{\code{clustered_image}}{An array of dimention (Image width) by (Image height) by (3 colour channels) that contains the data of the image with clustered colour blocks}
+\item{\code{clustered_image}}{An array of dimension (Image width) by (Image height) by (3 colour channels) that contains the data of the image with clustered colour blocks}
 
 \item{\code{palette}}{A character vector that contains the colours of the resulting colour palette}
 }}

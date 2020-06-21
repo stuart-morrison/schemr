@@ -44,7 +44,7 @@ image %<>% resizeImage(image = ., width = new_height, height = new_width)
 plot(as.raster(image))
 ```
 
-![](README_files/figure-markdown_github/car_small.jpg)
+![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_small.jpg?raw=true)
 
 We see big blobs of blue, yellow and orange. Using schemr to extract these, we
 get:
@@ -61,14 +61,14 @@ schemr_data <- image_to_pallette(image_path = "images/car.jpg", resize_factor = 
 plot(schemr_data)
 ```
 
-![](README_files/figure-markdown_github/car_clustered.jpg)
+![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_clustered.jpg?raw=true)
 
 We can see the palette of colours found in the image by using the `palette` method on the schemr data.
 
 ``` r
 palette(schemr_data)
 ```
-![](README_files/figure-markdown_github/car_palette.jpg)
+![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_palette.jpg?raw=true)
 
 In addition, printing the class, shows the vector of hex RGB codes that
 make up the clustered data:
@@ -86,6 +86,7 @@ schemr_data
 The evaluated palette is easy to apply immediately into data visualisation by access through the `palette` attribute.
 
 ``` r
+library(ggplot2)
 # Example plot using the iris data set
 ggplot() +
     geom_point(data = iris,
@@ -97,7 +98,7 @@ ggplot() +
     labs(x = "Petal length", y = "Petal width") +
     theme_bw(base_size = 18)
 ```
-![](README_files/figure-markdown_github/car_ggplot.jpg)
+![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_ggplot.jpg?raw=true)
 
 ### Colour space conversions
 

@@ -2,8 +2,8 @@
 #' @importFrom graphics plot barplot text
 #' @importFrom grDevices as.raster
 #' @exportClass schemr
-#' @field image An array of dimention (Image width) by (Image height) by (3 colour channels) that contains the data of the original image
-#' @field clustered_image An array of dimention (Image width) by (Image height) by (3 colour channels) that contains the data of the image with clustered colour blocks
+#' @field image An array of dimension (Image width) by (Image height) by (3 colour channels) that contains the data of the original image
+#' @field clustered_image An array of dimension (Image width) by (Image height) by (3 colour channels) that contains the data of the image with clustered colour blocks
 #' @field palette A character vector that contains the colours of the resulting colour palette
 setRefClass(Class = "schemr",
             fields = list(
