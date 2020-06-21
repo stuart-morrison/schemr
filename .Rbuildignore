@@ -1,2 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+.Rhistory
+.travis.yml
+README.rmd
+readme.md
+README_files/*
+images/*
