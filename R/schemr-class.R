@@ -1,4 +1,4 @@
-# Create the schemr class, which holds the palette and image data
+#' Create the schemr class, which holds the palette and image data
 #' @importFrom graphics plot barplot text
 #' @importFrom grDevices as.raster
 #' @exportClass schemr
@@ -34,11 +34,11 @@ setMethod(f = "plot", signature = "schemr", definition = function(x, y = NULL, .
 
 #' Plot the colour palette
 #' @exportMethod palette
-#' @param x A schemr class object
+#' @param value A schemr class object
 setMethod(f = "palette", signature = "schemr",
-          definition = function(x) {
-              barplot(rep(1,length(x$palette)), col = x$palette, space = 0, border = NA, axes = FALSE)
-              text(x = 1:length(x$palette) - 0.5, y = 0.5,labels = x$palette, col = "white", srt = 90, cex = 1.5)
-              text(x = 1:length(x$palette) - 0.5, y = 0.3, labels = 1:length(x$palette), col = "white", cex = 1.5)
+          definition = function(value) {
+              barplot(rep(1,length(value$palette)), col = value$palette, space = 0, border = NA, axes = FALSE)
+              text(x = 1:length(value$palette) - 0.5, y = 0.5,labels = value$palette, col = "white", srt = 90, cex = 1.5)
+              text(x = 1:length(value$palette) - 0.5, y = 0.3, labels = 1:length(value$palette), col = "white", cex = 1.5)
           }
           )

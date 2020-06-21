@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: person("Stuart", "Morrison", email = "stuart@spheric.al",
                   role = c("aut", "cre"))
 Description: schemr is an R package for turning your photos into usable colour schemes for R visualisations.
-License: MIT
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:

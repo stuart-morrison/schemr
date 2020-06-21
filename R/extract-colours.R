@@ -1,9 +1,10 @@
 #' Develop a usable colour palette form an image.
 #' @importFrom OpenImageR readImage resizeImage superpixels
-#' @import apcluster
+#' @importFrom apcluster apcluster negDistMat
 #' @import magrittr
 #' @import dplyr
 #' @importFrom purrr map_df
+#' @importFrom methods new
 #' @export
 #' @param image_path A character path to the image to cluster. Reads images of type .png, .jpeg, .jpg, .tiff.
 #' @param resize_factor A numeric scalar that reduces (or increases) the size of the image before any processing.

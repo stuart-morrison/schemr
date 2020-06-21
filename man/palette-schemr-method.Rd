@@ -7,7 +7,7 @@
 \S4method{palette}{schemr}(value)
 }
 \arguments{
-\item{x}{A schemr class object}
+\item{value}{A schemr class object}
 }
 \description{
 Plot the colour palette
