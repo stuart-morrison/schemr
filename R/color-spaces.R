@@ -19,24 +19,33 @@ rgb_to_hex <- function(rgb) {
     blue <- unlist(rgb[ , 3], FALSE, FALSE)
 
     # Test if any RGB values are outside of [0, 255]
-    if (any(red < 0 | red > 255) |
+    if (
+        any(red < 0 | red > 255) |
         any(green < 0 | green > 255) |
-        any(blue < 0 | blue > 255)) {
+        any(blue < 0 | blue > 255)
+        ) {
         stop("Colour channels should be between 0 and 255.")
     }
 
     # Convert colour channels to hex
-    hex_value <- paste0("#",
-                        # Convert red
-                        str_pad(string = as.hexmode(round(red, 0)),
-                                width = 2, pad = "0", side = "left"),
-                        # Convert green
-                        str_pad(string = as.hexmode(round(green, 0)),
-                                width = 2, pad = "0", side = "left"),
-                        # Convert blue
-                        str_pad(string = as.hexmode(round(blue, 0)),
-                                width = 2, pad = "0", side = "left")
-                        )
+    hex_value <- paste0(
+        "#",
+        # Convert red
+        str_pad(
+            string = as.hexmode(round(red, 0)),
+            width = 2, pad = "0", side = "left"
+            ),
+        # Convert green
+        str_pad(
+            string = as.hexmode(round(green, 0)),
+            width = 2, pad = "0", side = "left"
+            ),
+        # Convert blue
+        str_pad(
+            string = as.hexmode(round(blue, 0)),
+            width = 2, pad = "0", side = "left"
+            )
+        )
 
     return(hex_value)
 }
@@ -65,9 +74,13 @@ hex_to_rgb <- function(hex) {
         stop(paste("The following colours do not parse from hex to decimal:\n", paste(bad_colours, collapse = ", ")))
     }
 
-    return(tibble(red = strtoi(paste0("0x", substr(stripped, 1, 2))),
-                  green = strtoi(paste0("0x", substr(stripped, 3, 4))),
-                  blue = strtoi(paste0("0x", substr(stripped, 5, 6)))))
+    return(
+        tibble(
+            red = strtoi(paste0("0x", substr(stripped, 1, 2))),
+            green = strtoi(paste0("0x", substr(stripped, 3, 4))),
+            blue = strtoi(paste0("0x", substr(stripped, 5, 6)))
+            )
+        )
 
 }
 
@@ -103,7 +116,7 @@ rgb_to_xyz <- function(rgb, transformation = "sRGB", linear_func = NULL) {
     temp_b <- unlist(rgb[ , 3], FALSE, FALSE) / 255
 
 
-    # Convert RGB space to linear speace
+    # Convert RGB space to linear space
     if (transformation_match == "sRGB") {
         temp_r <- srgb_transformation(temp_r)
         temp_g <- srgb_transformation(temp_g)
@@ -123,9 +136,11 @@ rgb_to_xyz <- function(rgb, transformation = "sRGB", linear_func = NULL) {
     }
 
     # Apply linear transformation for RGB to XYZ
-    xyz <- tibble(x = temp_r * m[1, 1] + temp_g * m[1, 2] + temp_b * m[1, 3],
-                  y = temp_r * m[2, 1] + temp_g * m[2, 2] + temp_b * m[2, 3],
-                  z = temp_r * m[3, 1] + temp_g * m[3, 2] + temp_b * m[3, 3])
+    xyz <- tibble(
+        x = temp_r * m[1, 1] + temp_g * m[1, 2] + temp_b * m[1, 3],
+        y = temp_r * m[2, 1] + temp_g * m[2, 2] + temp_b * m[2, 3],
+        z = temp_r * m[3, 1] + temp_g * m[3, 2] + temp_b * m[3, 3]
+        )
 
     return(xyz)
 
@@ -138,6 +153,11 @@ rgb_to_xyz <- function(rgb, transformation = "sRGB", linear_func = NULL) {
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param linear_func A function to convert linear RGB colour space into RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @return A \code{tibble} of red, green and blue colour channels.
+#' @examples
+#' x <- sample(x = 40:60, size = 10, replace = TRUE)
+#' y <- sample(x = 40:60, size = 10, replace = TRUE)
+#' z <- sample(x = 40:60, size = 10, replace = TRUE)
+#' xyz_to_rgb(data.frame(x = x, y = y, z = z))
 xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
 
     # Extract transformation matrix or default type
@@ -181,19 +201,23 @@ xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
         temp_b <- temp_b * 255
     }
 
-    return(tibble(red = as.integer(round(temp_r, 0)),
-                  green = as.integer(round(temp_g, 0)),
-                  blue = as.integer(round(temp_b, 0))))
-
+    return(
+        tibble(
+            red = as.integer(round(temp_r, 0)),
+            green = as.integer(round(temp_g, 0)),
+            blue = as.integer(round(temp_b, 0))
+            )
+        )
 }
-
 
 # Conversion from sRGB to linear space
 # Source: https://en.wikipedia.org/wiki/SRGB; https://entropymine.com/imageworsener/srgbformula/.
 srgb_transformation <- function(x) {
-    output <- ifelse(test = x > 0.0404482362771082,
-                     yes = ((x + 0.055) / 1.055) ^ 2.4,
-                     no = x / 12.92)
+    output <- ifelse(
+        test = x > 0.0404482362771082,
+        yes = ((x + 0.055) / 1.055) ^ 2.4,
+        no = x / 12.92
+        )
     output <- output * 100
     return(output)
 }
@@ -201,9 +225,11 @@ srgb_transformation <- function(x) {
 # Conversion from XYZ to linear space
 # Source: https://en.wikipedia.org/wiki/SRGB; https://entropymine.com/imageworsener/srgbformula/.
 srgb_transformation_inverse <- function(x) {
-    output <- ifelse(test = x > 0.00313066844250063,
-                     yes = (1.055 * (x ^ (1 / 2.4))) - 0.055,
-                     no = x * 12.92)
+    output <- ifelse(
+        test = x > 0.00313066844250063,
+        yes = (1.055 * (x ^ (1 / 2.4))) - 0.055,
+        no = x * 12.92
+        )
     output <- output * 255
     return(output)
 }
@@ -222,15 +248,17 @@ adobe_transformation_inverse <- function(x) {
     return(output)
 }
 
-
 #### XYZ to Lab
 # Source: https://en.wikipedia.org/wiki/CIELAB_color_space#CIELAB%E2%80%93CIEXYZ_conversions
 f <- function(num, dem) {
     delta <- 6 / 29
-
     t <- num / dem
-
-    ifelse(t > (delta ^ 3), t ^ (1 / 3), (t / (3 * delta ^ 2)) + (4 / 29))
+    output <- ifelse(
+        test = t > (delta ^ 3),
+        yes = t ^ (1 / 3),
+        no = (t / (3 * delta ^ 2)) + (4 / 29)
+        )
+    return(output)
 }
 
 l_star <- function(.y, .y_n, .f) {
@@ -249,14 +277,37 @@ b_star <- function(.y, .y_n, .z, .z_n, .f) {
 #' Convert from XYZ colour channels to Lab space.
 #' @export
 #' @param xyz A dataframe or matrix with X, Y and Z colour channels located in the columns 1 to 3, respectively.
+#' @examples
+#' x <- sample(x = 40:60, size = 10, replace = TRUE)
+#' y <- sample(x = 40:60, size = 10, replace = TRUE)
+#' z <- sample(x = 40:60, size = 10, replace = TRUE)
+#' xyz_to_lab(data.frame(x = x, y = y, z = z))
 xyz_to_lab <- function(xyz) {
     if (ncol(xyz) != 3) {
         stop("XYZ colours should be a matrix or tibble with three columns.")
     }
 
-    colours_lab <- tibble(l = l_star(.y = unlist(xyz[ , 2], FALSE, FALSE), .y_n = y_n, .f = f),
-                          a = a_star(.x = unlist(xyz[ , 1], FALSE, FALSE), .x_n = x_n, .y = unlist(xyz[ , 2], FALSE, FALSE), .y_n = y_n, .f = f),
-                          b = b_star(.y = unlist(xyz[ , 2], FALSE, FALSE), .y_n = y_n, .z = unlist(xyz[ , 3], FALSE, FALSE), .z_n = z_n, .f = f))
+    colours_lab <- tibble(
+        l = l_star(
+            .y = unlist(xyz[ , 2], FALSE, FALSE),
+            .y_n = y_n,
+            .f = f
+            ),
+        a = a_star(
+            .x = unlist(xyz[ , 1], FALSE, FALSE),
+            .x_n = x_n,
+            .y = unlist(xyz[ , 2], FALSE, FALSE),
+            .y_n = y_n,
+            .f = f
+            ),
+        b = b_star(
+            .y = unlist(xyz[ , 2], FALSE, FALSE),
+            .y_n = y_n,
+            .z = unlist(xyz[ , 3], FALSE, FALSE),
+            .z_n = z_n,
+            .f = f
+            )
+        )
 
     return(colours_lab)
 }
@@ -285,14 +336,35 @@ lab_to_z <- function(.l, .b, .z_n, .f_inv) {
 #' Convert from Lab space to XYZ colour channels.
 #' @export
 #' @param lab A dataframe or matrix with L, a and b colour channels located in the columns 1 to 3, respectively.
+#' @examples
+#' l <- sample(x = 40:60, size = 10, replace = TRUE)
+#' a <- sample(x = -128:128, size = 10, replace = TRUE)
+#' b <- sample(x = -128:128, size = 10, replace = TRUE)
+#' lab_to_xyz(data.frame(l = l, a = a, b = b))
 lab_to_xyz <- function(lab) {
     if (ncol(lab) != 3) {
         stop("Lab colours should be a matrix or tibble with three columns.")
     }
 
-    colours_xyz <- tibble(x = lab_to_x(.l = unlist(lab[ , 1], FALSE, FALSE), .a = unlist(lab[ , 2], FALSE, FALSE), .x_n = x_n, .f_inv = f_inv),
-                          y = lab_to_y(.l = unlist(lab[ , 1], FALSE, FALSE), .y_n = y_n, .f_inv = f_inv),
-                          z = lab_to_z(.l = unlist(lab[ , 1], FALSE, FALSE), .b = unlist(lab[ , 3], FALSE, FALSE), .z_n = z_n, .f_inv = f_inv))
+    colours_xyz <- tibble(
+        x = lab_to_x(
+            .l = unlist(lab[ , 1], FALSE, FALSE),
+            .a = unlist(lab[ , 2], FALSE, FALSE),
+            .x_n = x_n,
+            .f_inv = f_inv
+            ),
+        y = lab_to_y(
+            .l = unlist(lab[ , 1], FALSE, FALSE),
+            .y_n = y_n,
+            .f_inv = f_inv
+            ),
+        z = lab_to_z(
+            .l = unlist(lab[ , 1], FALSE, FALSE),
+            .b = unlist(lab[ , 3], FALSE, FALSE),
+            .z_n = z_n,
+            .f_inv = f_inv
+            )
+        )
     return(colours_xyz)
 
 }
@@ -310,7 +382,11 @@ lab_to_xyz <- function(lab) {
 #' blue <- sample(x = 1:255, size = 10, replace = TRUE)
 #' rgb_to_lab(data.frame(r = red, g = green, b = blue), transformation = "Adobe")
 rgb_to_lab <- function(rgb, transformation = "sRGB", linear_func = NULL) {
-    xyz <- rgb_to_xyz(rgb = rgb, transformation = transformation, linear_func = linear_func)
+    xyz <- rgb_to_xyz(
+        rgb = rgb,
+        transformation = transformation,
+        linear_func = linear_func
+        )
     lab <- xyz_to_lab(xyz = xyz)
     return(lab)
 }
@@ -321,9 +397,18 @@ rgb_to_lab <- function(rgb, transformation = "sRGB", linear_func = NULL) {
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param linear_func A function to convert RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @return A \code{tibble} of red, green and blue colour channels.
+#' @examples
+#' red <- sample(x = 1:255, size = 10, replace = TRUE)
+#' green <- sample(x = 1:255, size = 10, replace = TRUE)
+#' blue <- sample(x = 1:255, size = 10, replace = TRUE)
+#' lab_to_rgb(rgb_to_lab(data.frame(r = red, g = green, b = blue)))
 lab_to_rgb <- function(lab, transformation = "sRGB", linear_func = NULL) {
     xyz <- lab_to_xyz(lab = lab)
-    rgb <- xyz_to_rgb(xyz = xyz, transformation = transformation, linear_func = linear_func)
+    rgb <- xyz_to_rgb(
+        xyz = xyz,
+        transformation = transformation,
+        linear_func = linear_func
+        )
     return(rgb)
 }
 
@@ -333,9 +418,18 @@ lab_to_rgb <- function(lab, transformation = "sRGB", linear_func = NULL) {
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param linear_func A function to convert RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @return A \code{tibble} of L, a and b colour space values.
+#' @examples
+#' red <- sample(x = 1:255, size = 10, replace = TRUE)
+#' green <- sample(x = 1:255, size = 10, replace = TRUE)
+#' blue <- sample(x = 1:255, size = 10, replace = TRUE)
+#' hex_to_lab(rgb_to_hex(data.frame(r = red, g = green, b = blue)))
 hex_to_lab <- function(hex, transformation = "sRGB", linear_func = NULL) {
     rgb <- hex_to_rgb(hex = hex)
-    lab <- rgb_to_lab(rgb, transformation = transformation, linear_func = linear_func)
+    lab <- rgb_to_lab(
+        rgb,
+        transformation = transformation,
+        linear_func = linear_func
+        )
     return(lab)
 }
 
@@ -345,8 +439,17 @@ hex_to_lab <- function(hex, transformation = "sRGB", linear_func = NULL) {
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param linear_func A function to convert RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @return A character vector with hex representations of RGB colour channels.
+#' @examples
+#' red <- sample(x = 1:255, size = 10, replace = TRUE)
+#' green <- sample(x = 1:255, size = 10, replace = TRUE)
+#' blue <- sample(x = 1:255, size = 10, replace = TRUE)
+#' lab_to_hex(rgb_to_lab(data.frame(r = red, g = green, b = blue)))
 lab_to_hex <- function(lab, transformation = "sRGB", linear_func = NULL) {
-    rgb <- lab_to_rgb(lab = lab, transformation = transformation, linear_func = linear_func)
+    rgb <- lab_to_rgb(
+        lab = lab,
+        transformation = transformation,
+        linear_func = linear_func
+        )
     hex <- rgb_to_hex(rgb)
     return(hex)
 }
@@ -357,9 +460,18 @@ lab_to_hex <- function(lab, transformation = "sRGB", linear_func = NULL) {
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param linear_func A function to convert RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @return A \code{tibble} of X, Y and Z colour space values.
+#' @examples
+#' red <- sample(x = 1:255, size = 10, replace = TRUE)
+#' green <- sample(x = 1:255, size = 10, replace = TRUE)
+#' blue <- sample(x = 1:255, size = 10, replace = TRUE)
+#' hex_to_xyz(rgb_to_hex(data.frame(r = red, g = green, b = blue)))
 hex_to_xyz <- function(hex, transformation = "sRGB", linear_func = NULL) {
     rgb <- hex_to_rgb(hex = hex)
-    lab <- rgb_to_xyz(rgb, transformation = transformation, linear_func = linear_func)
+    lab <- rgb_to_xyz(
+        rgb,
+        transformation = transformation,
+        linear_func = linear_func
+        )
     return(lab)
 }
 
@@ -369,8 +481,17 @@ hex_to_xyz <- function(hex, transformation = "sRGB", linear_func = NULL) {
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param linear_func A function to convert RGB colour space into non-linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
 #' @return A character vector with hex representations of RGB colour channels.
+#' @examples
+#' x <- sample(x = 40:60, size = 10, replace = TRUE)
+#' y <- sample(x = 40:60, size = 10, replace = TRUE)
+#' z <- sample(x = 40:60, size = 10, replace = TRUE)
+#' xyz_to_hex(data.frame(x = x, y = y, z = z))
 xyz_to_hex <- function(xyz, transformation = "sRGB", linear_func = NULL) {
-    rgb <- xyz_to_rgb(xyz = xyz, transformation = transformation, linear_func = linear_func)
+    rgb <- xyz_to_rgb(
+        xyz = xyz,
+        transformation = transformation,
+        linear_func = linear_func
+        )
     hex <- rgb_to_hex(rgb)
     return(hex)
 }

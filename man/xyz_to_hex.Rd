@@ -19,3 +19,9 @@ A character vector with hex representations of RGB colour channels.
 \description{
 Convert from XYZ space into hex RGB colour values.
 }
+\examples{
+x <- sample(x = 40:60, size = 10, replace = TRUE)
+y <- sample(x = 40:60, size = 10, replace = TRUE)
+z <- sample(x = 40:60, size = 10, replace = TRUE)
+xyz_to_hex(data.frame(x = x, y = y, z = z))
+}

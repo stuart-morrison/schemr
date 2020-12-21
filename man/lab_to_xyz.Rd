@@ -12,3 +12,9 @@ lab_to_xyz(lab)
 \description{
 Convert from Lab space to XYZ colour channels.
 }
+\examples{
+l <- sample(x = 40:60, size = 10, replace = TRUE)
+a <- sample(x = -128:128, size = 10, replace = TRUE)
+b <- sample(x = -128:128, size = 10, replace = TRUE)
+lab_to_xyz(data.frame(l = l, a = a, b = b))
+}

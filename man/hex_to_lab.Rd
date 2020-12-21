@@ -19,3 +19,9 @@ A \code{tibble} of L, a and b colour space values.
 \description{
 Convert hex RGB values to Lab space.
 }
+\examples{
+red <- sample(x = 1:255, size = 10, replace = TRUE)
+green <- sample(x = 1:255, size = 10, replace = TRUE)
+blue <- sample(x = 1:255, size = 10, replace = TRUE)
+hex_to_lab(rgb_to_hex(data.frame(r = red, g = green, b = blue)))
+}

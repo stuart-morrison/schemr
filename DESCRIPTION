@@ -4,7 +4,7 @@ Title: Convert Images to Usable Color Schemes
 Version: 0.1.0
 Authors@R: person("Stuart", "Morrison", email = "stuart@spheric.al",
                   role = c("aut", "cre"))
-Description: This is an R package for turning your photos into usable colour schemes for R visualisations.
+Description: A fast and adaptable tool to convert photos and images into usable colour schemes for data visualisation. Contains functionality to extract colour palettes from images, as well for the conversion of images between colour spaces.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -17,6 +17,6 @@ Imports:
     apcluster,
     OpenImageR,
     methods
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Suggests: 
     testthat

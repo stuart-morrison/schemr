@@ -6,3 +6,4 @@ README.rmd
 README_files/*
 images/*
 cran-comments.md
+^CRAN-RELEASE$

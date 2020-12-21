@@ -35,14 +35,16 @@ image_to_pallette <- function(image_path, resize_factor = NULL, colour_space = "
     }
 
     # Find the superpixel groups in the image
-    superpixels <- OpenImageR::superpixels(input_image = image,
-                                           method = method,
-                                           superpixel = superpixel,
-                                           compactness = compactness,
-                                           return_slic_data = TRUE,
-                                           return_labels = TRUE,
-                                           write_slic = "",
-                                           verbose = verbose)
+    superpixels <- OpenImageR::superpixels(
+        input_image = image,
+        method = method,
+        superpixel = superpixel,
+        compactness = compactness,
+        return_slic_data = TRUE,
+        return_labels = TRUE,
+        write_slic = "",
+        verbose = verbose
+        )
 
     # Extract red vector
     red <- as.data.frame.table(superpixels$slic_data[ , , 1]) %>%
@@ -61,17 +63,21 @@ image_to_pallette <- function(image_path, resize_factor = NULL, colour_space = "
                 rename(labels = Freq)
 
     # Create a tibble of RGB channels
-    full_colour <- bind_cols(red %>% select(red),
-                             green %>% select(green),
-                             blue %>% select(blue),
-                             labels %>% select(labels))
+    full_colour <- bind_cols(
+        red %>% select(red),
+        green %>% select(green),
+        blue %>% select(blue),
+        labels %>% select(labels)
+        )
 
     # Convert to Lab spaces
-    full_colour_lab <- rgb_to_lab(rgb = full_colour %>%
-                                      select(red, green, blue),
-                                  transformation = colour_space,
-                                  linear_func = rgb_to_linear_func) %>%
-                            bind_cols(labels %>% select(labels))
+    full_colour_lab <- rgb_to_lab(
+        rgb = full_colour %>%
+            select(red, green, blue),
+        transformation = colour_space,
+        linear_func = rgb_to_linear_func
+        ) %>%
+        bind_cols(labels %>% select(labels))
 
     # Find mean for each super pixel
     superpixel_average <- full_colour_lab %>%
@@ -81,35 +87,42 @@ image_to_pallette <- function(image_path, resize_factor = NULL, colour_space = "
                                       b = mean(b))
 
     # Cluster with affinity propagation
-    clusters <- apcluster(s = s,
-                          x = superpixel_average %>% select(-labels),
-                          ...)
+    clusters <- apcluster(
+        s = s,
+        x = superpixel_average %>% select(-labels),
+        ...
+        )
 
     # Extract clusters
-    cluster_data <- map_df(.x = 1:length(clusters@clusters),
-                           .f = function(x) {
-                                    temp_df <- tibble(cluster_index = x,
-                                                      labels = clusters@clusters[[x]] %>% as.numeric() - 1)
-                                    }
-                           )
+    cluster_data <- map_df(
+        .x = 1:length(clusters@clusters),
+        .f = function(x) {
+            temp_df <- tibble(cluster_index = x,
+                              labels = clusters@clusters[[x]] %>% as.numeric() - 1)
+            }
+        )
 
     # Average colours by cluster
     full_colour_lab_summarise <- full_colour_lab %>%
                                     left_join(cluster_data,
                                               by = c("labels")) %>%
                                         group_by(cluster_index) %>%
-                                        mutate(l = summary_method(l),
-                                               a = summary_method(a),
-                                               b = summary_method(b)) %>%
+                                        mutate(
+                                            l = summary_method(l),
+                                            a = summary_method(a),
+                                            b = summary_method(b)
+                                            ) %>%
                                         ungroup()
 
     # Convert back to RGB space
-    full_colour_rgb_summarise <- lab_to_rgb(lab = full_colour_lab_summarise %>%
-                                                    select(l, a, b),
-                                            transformation = colour_space,
-                                            linear_func = rgb_to_nonlinear_func) %>%
-                                    bind_cols(full_colour_lab_summarise %>%
-                                                  select(labels, cluster_index))
+    full_colour_rgb_summarise <- lab_to_rgb(
+        lab = full_colour_lab_summarise %>%
+            select(l, a, b),
+        transformation = colour_space,
+        linear_func = rgb_to_nonlinear_func) %>%
+        bind_cols(full_colour_lab_summarise %>%
+                      select(labels, cluster_index)
+                  )
 
     # Palette extraction from the clustered data
     palette <- full_colour_rgb_summarise %>%

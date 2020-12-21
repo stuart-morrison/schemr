@@ -1,5 +1,5 @@
 ## Test environments
-* local Ubuntu 20.04 install, R 3.6.3
+* local Ubuntu 20.04 install, R 4.0.3
 * Ubuntu 16.04 (on travis-ci), R 4.0.0
 * win-builder (devel and release)
 

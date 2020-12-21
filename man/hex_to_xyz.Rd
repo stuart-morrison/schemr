@@ -19,3 +19,9 @@ A \code{tibble} of X, Y and Z colour space values.
 \description{
 Convert hex RGB values to XYZ space.
 }
+\examples{
+red <- sample(x = 1:255, size = 10, replace = TRUE)
+green <- sample(x = 1:255, size = 10, replace = TRUE)
+blue <- sample(x = 1:255, size = 10, replace = TRUE)
+hex_to_xyz(rgb_to_hex(data.frame(r = red, g = green, b = blue)))
+}

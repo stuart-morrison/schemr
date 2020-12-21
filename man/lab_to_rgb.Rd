@@ -19,3 +19,9 @@ A \code{tibble} of red, green and blue colour channels.
 \description{
 Convert from Lab space into RGB colour channels.
 }
+\examples{
+red <- sample(x = 1:255, size = 10, replace = TRUE)
+green <- sample(x = 1:255, size = 10, replace = TRUE)
+blue <- sample(x = 1:255, size = 10, replace = TRUE)
+lab_to_rgb(rgb_to_lab(data.frame(r = red, g = green, b = blue)))
+}

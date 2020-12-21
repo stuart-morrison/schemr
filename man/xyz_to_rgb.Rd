@@ -19,3 +19,9 @@ A \code{tibble} of red, green and blue colour channels.
 \description{
 Convert from RGB colour channels to XYZ space.
 }
+\examples{
+x <- sample(x = 40:60, size = 10, replace = TRUE)
+y <- sample(x = 40:60, size = 10, replace = TRUE)
+z <- sample(x = 40:60, size = 10, replace = TRUE)
+xyz_to_rgb(data.frame(x = x, y = y, z = z))
+}

@@ -19,3 +19,9 @@ A character vector with hex representations of RGB colour channels.
 \description{
 Convert from Lab space into hex RGB colour values.
 }
+\examples{
+red <- sample(x = 1:255, size = 10, replace = TRUE)
+green <- sample(x = 1:255, size = 10, replace = TRUE)
+blue <- sample(x = 1:255, size = 10, replace = TRUE)
+lab_to_hex(rgb_to_lab(data.frame(r = red, g = green, b = blue)))
+}
