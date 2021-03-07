@@ -31,6 +31,7 @@ setRefClass(
 #' @param x A schemr class object
 #' @param y Not used, NULL
 #' @param ... Other arguments to pass onto `plot`
+#' @return No return value, calls a raster plot of the clustered image data.
 setMethod(
     f = "plot",
     signature = "schemr",
@@ -40,6 +41,7 @@ setMethod(
 #' Plot the colour palette
 #' @exportMethod palette
 #' @param value A schemr class object
+#' @return No return value, calls a barplot of the colour pallette.
 setMethod(
     f = "palette",
     signature = "schemr",

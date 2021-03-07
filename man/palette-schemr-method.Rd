@@ -9,6 +9,9 @@
 \arguments{
 \item{value}{A schemr class object}
 }
+\value{
+No return value, calls a barplot of the colour pallette.
+}
 \description{
 Plot the colour palette
 }

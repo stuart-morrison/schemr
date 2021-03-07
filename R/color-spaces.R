@@ -277,6 +277,7 @@ b_star <- function(.y, .y_n, .z, .z_n, .f) {
 #' Convert from XYZ colour channels to Lab space.
 #' @export
 #' @param xyz A dataframe or matrix with X, Y and Z colour channels located in the columns 1 to 3, respectively.
+#' @return A \code{tibble} of L, a and b colour space values.
 #' @examples
 #' x <- sample(x = 40:60, size = 10, replace = TRUE)
 #' y <- sample(x = 40:60, size = 10, replace = TRUE)
@@ -336,6 +337,7 @@ lab_to_z <- function(.l, .b, .z_n, .f_inv) {
 #' Convert from Lab space to XYZ colour channels.
 #' @export
 #' @param lab A dataframe or matrix with L, a and b colour channels located in the columns 1 to 3, respectively.
+#' @return A \code{tibble} of X, Y and Z colour channels.
 #' @examples
 #' l <- sample(x = 40:60, size = 10, replace = TRUE)
 #' a <- sample(x = -128:128, size = 10, replace = TRUE)

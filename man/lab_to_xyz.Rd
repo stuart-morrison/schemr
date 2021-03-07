@@ -9,6 +9,9 @@ lab_to_xyz(lab)
 \arguments{
 \item{lab}{A dataframe or matrix with L, a and b colour channels located in the columns 1 to 3, respectively.}
 }
+\value{
+A \code{tibble} of X, Y and Z colour channels.
+}
 \description{
 Convert from Lab space to XYZ colour channels.
 }

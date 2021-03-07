@@ -13,6 +13,9 @@
 
 \item{...}{Other arguments to pass onto `plot`}
 }
+\value{
+No return value, calls a raster plot of the clustered image data.
+}
 \description{
 Plot the clustered image data
 }
