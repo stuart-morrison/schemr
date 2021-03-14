@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # `schemr` package
-[![Build Status](https://travis-ci.org/stuart-morrison/schemr.svg?branch=master)](https://travis-ci.org/stuart-morrison/schemr)
+
 ## Convert photos into useable colour schemes
 
 `schemr` is an R package for turning your photos into usable colour schemes for R visualisations.

@@ -19,7 +19,12 @@ The key driver is the `image_to_pallette` function, which:
 
 ### Installing `schemr`
 
-The development version of `schemr` can be installed by running:
+Install the latest CRAN version of `schemr` by:
+``` r
+install.packages("schemr")
+```
+
+Alternatively, install the development version of `schemr` can be installed by running:
 ``` r
 devtools::install_github("stuart-morrison/schemr")
 ```
