@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/stuart-morrison/schemr.svg?branch=master)](https://travis-ci.org/stuart-morrison/schemr)
 
-`schemr` package
+:rainbow: `schemr` package
 ================
 
 Convert photos into useable colour schemes
@@ -17,7 +17,7 @@ The key driver is the `image_to_pallette` function, which:
 -   uses affinity propagation clustering to condense the set of key
     colours.
 
-### Installing `schemr`
+### :hammer: Installing `schemr`
 
 Install the latest CRAN version of `schemr` by:
 ``` r
@@ -29,7 +29,7 @@ Alternatively, install the development version of `schemr` can be installed by r
 devtools::install_github("stuart-morrison/schemr")
 ```
 
-### Photo example
+### :camera: Photo example
 
 First we have a look at a photo of my beautiful old car.
 
@@ -86,7 +86,7 @@ schemr_data
     ## [6] "#997520" "#463316" "#3f4b49" "#848aa7" "#5d4e55"
     ## [11] "#10211e" "#964227" "#ffffff" "#297d7f"
 
-### Using `schemr` palettes in plots
+### :bar_chart: Using `schemr` palettes in plots
 
 The evaluated palette is easy to apply immediately into data visualisation by access through the `palette` attribute.
 
@@ -105,7 +105,7 @@ ggplot() +
 ```
 ![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_ggplot.jpg?raw=true)
 
-### Colour space conversions
+### :raised_hands: Colour space conversions
 
 `schemr` also contains functions to convert colour data both to and
 from:
