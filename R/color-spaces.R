@@ -87,6 +87,7 @@ hex_to_rgb <- function(hex) {
 #### RGB to XYZ to RGB
 #' Convert from RGB colour channels to XYZ space.
 #' @export
+#' @importFrom methods is
 #' @param rgb A dataframe or matrix with red, green and blue colour channels located in the columns 1 to 3, respectively. Colour channel values should be between 0 and 255, inclusive.
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param linear_func A function to convert RGB colour space into linear RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
@@ -99,7 +100,7 @@ hex_to_rgb <- function(hex) {
 rgb_to_xyz <- function(rgb, transformation = "sRGB", linear_func = NULL) {
 
     # Extract transformation matrix or default matrix
-    if (class(transformation) == "Matrix") {
+    if (is(transformation, "matrix")) {
         if (all(dim(transformation) == c(3L, 3L))) {
             m <- transformation
         } else {
@@ -149,6 +150,7 @@ rgb_to_xyz <- function(rgb, transformation = "sRGB", linear_func = NULL) {
 # Conversion from XYZ space to RGB space
 #' Convert from RGB colour channels to XYZ space.
 #' @export
+#' @importFrom methods is
 #' @param xyz A dataframe or matrix with X, Y and Z colour channels located in the columns 1 to 3, respectively.
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
 #' @param linear_func A function to convert linear RGB colour space into RGB space. Used only if a custom transformation matrix is provided. Transformation skips if no function is provided under a user-defined transformation matrix. See: https://en.wikipedia.org/wiki/SRGB.
@@ -161,7 +163,7 @@ rgb_to_xyz <- function(rgb, transformation = "sRGB", linear_func = NULL) {
 xyz_to_rgb <- function(xyz, transformation = "sRGB", linear_func = NULL) {
 
     # Extract transformation matrix or default type
-    if (class(transformation) == "Matrix") {
+    if (is(transformation, "matrix")) {
         if (all(dim(transformation) == c(3L, 3L))) {
             m <- transformation
         } else {

@@ -1,3 +1,3 @@
 # schemr news
-## Version 0.1.0
-Aiming for CRAN release
+## Version 0.2.0
+Updates for new R 4 language features
