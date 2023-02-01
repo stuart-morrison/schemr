@@ -9,5 +9,6 @@ There were no ERRORs, WARNINGs or NOTEs
 ## Downstream dependencies
 There are currently no downstream dependencies for this package
 
-## Resubmission comments.
-This submission addresses feedback from submission by including value tags where previously missing.
+## Notes
+
+One note, changing maintainer contact information for more permanent information.
