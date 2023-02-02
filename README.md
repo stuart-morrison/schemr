@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/stuart-morrison/schemr.svg?branch=master)](https://travis-ci.org/stuart-morrison/schemr)
+![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/schemr)(https://cran.r-project.org/package=schemr) 
+![downloads](http://cranlogs.r-pkg.org/badges/grand-total/schemr)(https://cran.r-project.org/package=schemr)
+![Build Status](https://travis-ci.org/stuart-morrison/schemr.svg?branch=master)(https://travis-ci.org/stuart-morrison/schemr)
+
 
 :rainbow: `schemr` package
 ================

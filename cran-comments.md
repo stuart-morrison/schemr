@@ -7,8 +7,5 @@
 There were no ERRORs, WARNINGs or NOTEs
 
 ## Downstream dependencies
-There are currently no downstream dependencies for this package
+There are currently no strong downstream dependencies for this package
 
-## Notes
-
-One note, changing maintainer contact information for more permanent information.
