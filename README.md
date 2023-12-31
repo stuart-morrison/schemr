@@ -113,11 +113,16 @@ ggplot() +
 ### :raised_hands: Colour space conversions
 
 `schemr` also contains functions to convert colour data both to and
-from:
+from the following colour spaces:
 
--   RGB space;
--   XYZ space; and
--   Lab space.
+|From\To|         RGB         |         XYZ         |         Lab         |         HSL         |         HSV        |
+| ---:  |        :---:        |        :---:        |        :---:        |        :---:        |        :---:       |
+|  RGB  |                     | :white_check_mark:  | :white_check_mark:  |  :white_check_mark: | :white_check_mark: |
+|  XYZ  | :white_check_mark:  |                     | :white_check_mark:  |  :white_check_mark: | :white_check_mark: |
+|  Lab  | :white_check_mark:  | :white_check_mark:  |                     |  :white_check_mark: | :white_check_mark: |
+|  HSL  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  |                     | :white_check_mark: |
+|  HSV  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  | :white_check_mark:  |                    |
+
 
 Colour conversion constants and functions are provided for sRGB and
 Adobe 1998 RGB spaces, with user ability to apply other conversions for
