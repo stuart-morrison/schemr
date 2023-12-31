@@ -604,12 +604,16 @@ hsl_to_rgb <- function(hsl) {
                 TRUE ~ X + m          
             )
         ) |>
-        select(r, g, b) * 255
+        select(r, g, b) |>
+        mutate(
+            across(c("r", "g", "b"), function(x) if_else((x < 0) & (abs(x) < 1e-14), 0, x)) # Correcting for machine precision negative values
+        ) * 255
     
     return(rgb)
 }
 
 ### HSL to HSV
+#' Convert HSL to HSV
 #' @export
 #' @param hsl A dataframe or matrix with H, S and L colour channels located in the columns 1 to 3, respectively. H in degrees in [0, 360], S and L in [0, 1]
 #' @return A \code{tibble} of H, S and V colour channels. Hue is constant between colour spaces, while saturation differs.
@@ -628,7 +632,7 @@ hsl_to_hsv <- function(hsl) {
 
     # Calculate S
     S = case_when(
-        V == 0 ~ 0
+        V == 0 ~ 0,
         TRUE ~ 2 * (1 - (temp_l / V))
     )
 
@@ -642,6 +646,7 @@ hsl_to_hsv <- function(hsl) {
 }
 
 ### HSV to HSL
+#' Convert HSV to HSL
 #' @export
 #' @param hsv A dataframe or matrix with H, S and V colour channels located in the columns 1 to 3, respectively. H in degrees in [0, 360], S and L in [0, 1]
 #' @return A \code{tibble} of H, S and L colour channels. Hue is constant between colour spaces, while saturation differs.
@@ -675,6 +680,7 @@ hsv_to_hsl <- function(hsv) {
 }
 
 ### RGB to HSV
+#' Convert RGB to HSV
 #' @export
 #' @param rgb A dataframe or matrix with red, green and blue colour channels located in the columns 1 to 3, respectively. Colour channel values should be between 0 and 255, inclusive.
 #' @return A \code{tibble} of H, S and V colour channels.
@@ -685,16 +691,18 @@ rgb_to_hsv <- function(rgb) {
 }
 
 ### HSV to RGB
+#' Convert HSV to RGB
 #' @export
 #' @param hsv A dataframe or matrix with H, S and V colour channels located in the columns 1 to 3, respectively. H in degrees in [0, 360], S and L in [0, 1]
 #' @return A \code{tibble} of red, green and blue colour channels.
 hsv_to_rgb <- function(hsv) {
     hsl <- hsv_to_hsl(hsv)
     rgb <- hsl_to_rgb(hsl)
-    returb(rgb)
+    return(rgb)
 }
 
 ### XYZ to HSL
+#' Convert XYZ to HSL
 #' @export
 #' @param xyz A dataframe or matrix with X, Y and Z colour channels located in the columns 1 to 3, respectively.
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
@@ -707,6 +715,7 @@ xyz_to_hsl <- function(xyz, transformation = "sRGB", linear_func = NULL) {
 }
 
 ### HSL to XYZ
+#' Convert HSL to XYZ
 #' @export
 #' @param hsl A dataframe or matrix with H, S and L colour channels located in the columns 1 to 3, respectively. H in degrees in [0, 360], S and L in [0, 1]
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
@@ -719,6 +728,7 @@ hsl_to_xyz <- function(hsl, transformation = "sRGB", linear_func = NULL) {
 }
 
 ### XYZ to HSV
+#' Convert XYZ to HSV
 #' @export
 #' @param xyz A dataframe or matrix with X, Y and Z colour channels located in the columns 1 to 3, respectively.
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
@@ -731,6 +741,7 @@ xyz_to_hsv <- function(xyz, transformation = "sRGB", linear_func = NULL) {
 }
 
 ### HSV to XYZ
+#' Convert HSV to XYZ
 #' @export
 #' @param hsv A dataframe or matrix with H, S and V colour channels located in the columns 1 to 3, respectively. H in degrees in [0, 360], S and L in [0, 1]
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
@@ -743,6 +754,7 @@ hsv_to_xyz <- function(hsv, transformation = "sRGB", linear_func = NULL) {
 }
 
 ### HSL to Lab
+#' Convert HSL to Lab
 #' @export
 #' @param hsl A dataframe or matrix with H, S and L colour channels located in the columns 1 to 3, respectively. H in degrees in [0, 360], S and L in [0, 1]
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
@@ -755,6 +767,7 @@ hsl_to_lab <- function(hsl, transformation = "sRGB", linear_func = NULL) {
 }
 
 ### Lab to HSL
+#' Convert Lab to HSL
 #' @export
 #' @param lab A dataframe or matrix with L, a and b colour channels located in the columns 1 to 3, respectively.
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
@@ -767,6 +780,7 @@ lab_to_hsl <- function(lab, transformation = "sRGB", linear_func = NULL) {
 }
 
 ### HSV to Lab
+#' Convert HSV to Lab 
 #' @export
 #' @param hsv A dataframe or matrix with H, S and V colour channels located in the columns 1 to 3, respectively. H in degrees in [0, 360], S and L in [0, 1]
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
@@ -779,6 +793,7 @@ hsv_to_lab <- function(hsv, transformation = "sRGB", linear_func = NULL) {
 }
 
 ### Lab to HSV
+#' Convert Lab to HSv
 #' @export
 #' @param lab A dataframe or matrix with L, a and b colour channels located in the columns 1 to 3, respectively.
 #' @param transformation An option in \code{c("sRGB", "Adobe")} for a built-in transformation or, alternatively, a custom 3x3 transformation matrix.
