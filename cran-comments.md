@@ -1,11 +1,11 @@
 ## Test environments
-* local Ubuntu 20.04 install, R 4.0.3
-* Ubuntu 16.04 (on travis-ci), R 4.0.2
+* local Ubuntu 22.04 install, R 4.4.0
+* Ubuntu 16.04 (on travis-ci), R 4.4.0
 * win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTEs
+There were no ERRORs or WARNINGs. One spurious note about the visible binding of a global variable, which is in fact not global.
 
 ## Downstream dependencies
-There are currently no strong downstream dependencies for this package
+
 
