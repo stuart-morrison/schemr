@@ -8,14 +8,6 @@
 :rainbow: `schemr` package
 ================
 
-`   _____`
-`  /     \`
-`/       \`
-`|   :rainbow:     |`
-`| Schemr  |`
-` \       /`
-`  \_____/`
-
 
 Convert photos into useable colour schemes
 ------------------------------------------
