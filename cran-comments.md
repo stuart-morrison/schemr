@@ -5,7 +5,7 @@
 * macOS Sonoma 14.5, R 4.4.1
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. One spurious note about the visible binding of a global variable, which is in fact not global.
+There were no ERRORs, WARNINGs or NOTEs.
 
 ## Downstream dependencies
 

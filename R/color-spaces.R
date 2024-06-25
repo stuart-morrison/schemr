@@ -585,28 +585,26 @@ hsl_to_rgb <- function(hsl) {
     )
 
     # Calculate RGB
-    rgb <-
-        cxmhash |>
-        mutate(
-            r = case_when(
-                ((H_dash >= 0) & (H_dash < 1)) | ((H_dash >= 5) & (H_dash < 6)) ~ C + m,
-                ((H_dash >= 1) & (H_dash < 2)) | ((H_dash >= 4) & (H_dash < 5))  ~ X + m,
-                TRUE ~ m          
-            ),
-            g = case_when(
-                (H_dash >= 1) & (H_dash < 3) ~ C + m,
-                ((H_dash >= 0) & (H_dash < 1)) | ((H_dash >= 3) & (H_dash < 4))  ~ X + m,
-                TRUE ~ m          
-            ),
-            b = case_when(
-                (H_dash >= 0) & (H_dash < 2) ~ m,
-                (H_dash >= 3) & (H_dash < 5) ~ C + m,
+    rgb <- cxmhash 
+    rgb$r <- case_when(
+                ((rgb$H_dash >= 0) & (rgb$H_dash < 1)) | ((rgb$H_dash >= 5) & (rgb$H_dash < 6)) ~ C + m,
+                ((rgb$H_dash >= 1) & (rgb$H_dash < 2)) | ((rgb$H_dash >= 4) & (rgb$H_dash < 5))  ~ rgb$X + rgb$m,
+                TRUE ~ rgb$m          
+                )
+    rgb$g <- case_when(
+                (rgb$H_dash >= 1) & (rgb$H_dash < 3) ~ rgb$C + rgb$m,
+                ((rgb$H_dash >= 0) & (rgb$H_dash < 1)) | ((rgb$H_dash >= 3) & (rgb$H_dash < 4)) ~ rgb$X + rgb$m,
+                TRUE ~ rgb$m          
+            )
+    rgb$b = case_when(
+                (rgb$H_dash >= 0) & (rgb$H_dash < 2) ~ rgb$m,
+                (rgb$H_dash >= 3) & (rgb$H_dash < 5) ~ rgb$C + rgb$m,
                 TRUE ~ X + m          
             )
-        ) |>
-        select(r, g, b) |>
+        
+    rgb <- rgb[, c("r", "g", "b")] |>
         mutate(
-            across(c("r", "g", "b"), function(x) if_else((x < 0) & (abs(x) < 1e-14), 0, x)) # Correcting for machine precision negative values
+            across(.cols = c("r", "g", "b"), function(x) if_else((x < 0) & (abs(x) < 1e-14), 0, x)) # Correcting for machine precision negative values
         ) * 255
     
     return(rgb)
