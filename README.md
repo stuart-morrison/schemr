@@ -1,6 +1,6 @@
 <!-- badges: start -->
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/schemr)](https://cran.r-project.org/package=schemr)
-[![downloads](http://cranlogs.r-pkg.org/badges/grand-total/schemr)](https://cran.r-project.org/package=schemr)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/schemr)](https://cran.r-project.org/package=schemr)
+[![downloads](https://cranlogs.r-pkg.org/badges/grand-total/schemr)](https://cran.r-project.org/package=schemr)
 [![R-CMD-check](https://github.com/stuart-morrison/schemr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stuart-morrison/schemr/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
