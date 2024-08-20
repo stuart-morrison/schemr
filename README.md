@@ -55,7 +55,7 @@ image %<>% resizeImage(image = ., width = new_height, height = new_width)
 plot(as.raster(image))
 ```
 
-![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_small.jpg?raw=true)
+![](README_files/figure-markdown_github/car_small.jpg)
 
 We see big blobs of blue, yellow and orange. Using schemr to extract these, we
 get:
@@ -72,14 +72,14 @@ schemr_data <- image_to_pallette(image_path = "images/car.jpg", resize_factor = 
 plot(schemr_data)
 ```
 
-![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_clustered.jpg?raw=true)
+![](README_files/figure-markdown_github/car_clustered.jpg)
 
 We can see the palette of colours found in the image by using the `palette` method on the schemr data.
 
 ``` r
 palette(schemr_data)
 ```
-![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_palette.jpg?raw=true)
+![](README_files/figure-markdown_github/car_palette.jpg)
 
 In addition, printing the class, shows the vector of hex RGB codes that
 make up the clustered data:
@@ -109,7 +109,7 @@ ggplot() +
     labs(x = "Petal length", y = "Petal width") +
     theme_bw(base_size = 18)
 ```
-![](https://github.com/stuart-morrison/schemr/blob/master/README_files/figure-markdown_github/car_ggplot.jpg?raw=true)
+![](README_files/figure-markdown_github/car_ggplot.jpg)
 
 ### :raised_hands: Colour space conversions
 
