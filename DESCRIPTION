@@ -9,6 +9,7 @@ Description: A fast and adaptable tool to convert photos and images into usable 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 4.1.0)
 Imports:
     dplyr,
     stringr,
@@ -20,3 +21,4 @@ Imports:
 RoxygenNote: 7.3.1
 Suggests: 
     testthat
+URL: https://github.com/stuart-morrison/schemr
