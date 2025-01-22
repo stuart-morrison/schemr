@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head><title>R: Affinity Propagation Clustering</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+<h1> Affinity Propagation Clustering
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;apcluster&rsquo; version 1.4.13</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="apcluster-package.html">apcluster-package</a></td>
+<td>APCluster Package</td></tr>
+<tr><td style="width: 25%;"><a href="aggExCluster-methods.html">aggExCluster</a></td>
+<td>Exemplar-based Agglomerative Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="aggExCluster-methods.html">aggexcluster</a></td>
+<td>Exemplar-based Agglomerative Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="aggExCluster-methods.html">aggExCluster-method</a></td>
+<td>Exemplar-based Agglomerative Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="aggExCluster-methods.html">aggExCluster-methods</a></td>
+<td>Exemplar-based Agglomerative Clustering</td></tr>
+<tr><td style="width: 25%;"><a href="AggExResult-class.html">AggExResult</a></td>
+<td>Class "AggExResult"</td></tr>
+<tr><td style="width: 25%;"><a href="AggExResult-class.html">aggexresult</a></td>
+<td>Class "AggExResult"</td></tr>
+<tr><td style="width: 25%;"><a href="AggExResult-class.html">AggExResult-class</a></td>
+<td>Class "AggExResult"</td></tr>
+<tr><td style="width: 25%;"><a href="apcluster-methods.html">apcluster</a></td>
+<td>Affinity Propagation</td></tr>
+<tr><td style="width: 25%;"><a href="apcluster-methods.html">apcluster-method</a></td>
+<td>Affinity Propagation</td></tr>
+<tr><td style="width: 25%;"><a href="apcluster-methods.html">apcluster-methods</a></td>
+<td>Affinity Propagation</td></tr>
+<tr><td style="width: 25%;"><a href="apclusterDemo.html">apclusterDemo</a></td>
+<td>Affinity Propagation Demo</td></tr>
+<tr><td style="width: 25%;"><a href="apclusterK-methods.html">apclusterK</a></td>
+<td>Affinity Propagation for Pre-defined Number of Clusters</td></tr>
+<tr><td style="width: 25%;"><a href="apclusterK-methods.html">apclusterK-method</a></td>
+<td>Affinity Propagation for Pre-defined Number of Clusters</td></tr>
+<tr><td style="width: 25%;"><a href="apclusterK-methods.html">apclusterK-methods</a></td>
+<td>Affinity Propagation for Pre-defined Number of Clusters</td></tr>
+<tr><td style="width: 25%;"><a href="apclusterL-methods.html">apclusterL</a></td>
+<td>Leveraged Affinity Propagation</td></tr>
+<tr><td style="width: 25%;"><a href="apclusterL-methods.html">apclusterL-method</a></td>
+<td>Leveraged Affinity Propagation</td></tr>
+<tr><td style="width: 25%;"><a href="apclusterL-methods.html">apclusterL-methods</a></td>
+<td>Leveraged Affinity Propagation</td></tr>
+<tr><td style="width: 25%;"><a href="APResult-class.html">APResult</a></td>
+<td>Class "APResult"</td></tr>
+<tr><td style="width: 25%;"><a href="APResult-class.html">apresult</a></td>
+<td>Class "APResult"</td></tr>
+<tr><td style="width: 25%;"><a href="APResult-class.html">APResult-class</a></td>
+<td>Class "APResult"</td></tr>
+<tr><td style="width: 25%;"><a href="coerce-methods.html">as.dendrogram</a></td>
+<td>Coercion of cluster hierarchies</td></tr>
+<tr><td style="width: 25%;"><a href="coerce-methods.html">as.dendrogram-method</a></td>
+<td>Coercion of cluster hierarchies</td></tr>
+<tr><td style="width: 25%;"><a href="conversions.html">as.DenseSimilarityMatrix</a></td>
+<td>Conversions Between Dense and Sparse Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="conversions.html">as.DenseSimilarityMatrix-method</a></td>
+<td>Conversions Between Dense and Sparse Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="coerce-methods.html">as.hclust</a></td>
+<td>Coercion of cluster hierarchies</td></tr>
+<tr><td style="width: 25%;"><a href="coerce-methods.html">as.hclust-method</a></td>
+<td>Coercion of cluster hierarchies</td></tr>
+<tr><td style="width: 25%;"><a href="conversions.html">as.SparseSimilarityMatrix</a></td>
+<td>Conversions Between Dense and Sparse Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="conversions.html">as.SparseSimilarityMatrix-method</a></td>
+<td>Conversions Between Dense and Sparse Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="conversions.html">as.SparseSimilarityMatrix-methods</a></td>
+<td>Conversions Between Dense and Sparse Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="conversions.html">conversions</a></td>
+<td>Conversions Between Dense and Sparse Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="similarities.html">corSimMat</a></td>
+<td>Methods for Computing Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="cutree-methods.html">cutree</a></td>
+<td>Cut Out Clustering Level from Cluster Hierarchy</td></tr>
+<tr><td style="width: 25%;"><a href="cutree-methods.html">cutree-method</a></td>
+<td>Cut Out Clustering Level from Cluster Hierarchy</td></tr>
+<tr><td style="width: 25%;"><a href="cutree-methods.html">cutree-methods</a></td>
+<td>Cut Out Clustering Level from Cluster Hierarchy</td></tr>
+<tr><td style="width: 25%;"><a href="ExClust-class.html">ExClust</a></td>
+<td>Class "ExClust"</td></tr>
+<tr><td style="width: 25%;"><a href="ExClust-class.html">exclust</a></td>
+<td>Class "ExClust"</td></tr>
+<tr><td style="width: 25%;"><a href="ExClust-class.html">ExClust-class</a></td>
+<td>Class "ExClust"</td></tr>
+<tr><td style="width: 25%;"><a href="similarities.html">expSimMat</a></td>
+<td>Methods for Computing Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="heatmap-methods.html">heatmap</a></td>
+<td>Plot Heatmap</td></tr>
+<tr><td style="width: 25%;"><a href="heatmap-methods.html">heatmap-method</a></td>
+<td>Plot Heatmap</td></tr>
+<tr><td style="width: 25%;"><a href="heatmap-methods.html">heatmap-methods</a></td>
+<td>Plot Heatmap</td></tr>
+<tr><td style="width: 25%;"><a href="labels-methods.html">labels</a></td>
+<td>Generate label vector from clustering result</td></tr>
+<tr><td style="width: 25%;"><a href="labels-methods.html">labels-method</a></td>
+<td>Generate label vector from clustering result</td></tr>
+<tr><td style="width: 25%;"><a href="labels-methods.html">labels-methods</a></td>
+<td>Generate label vector from clustering result</td></tr>
+<tr><td style="width: 25%;"><a href="APResult-class.html">length-method</a></td>
+<td>Class "APResult"</td></tr>
+<tr><td style="width: 25%;"><a href="AggExResult-class.html">length-method</a></td>
+<td>Class "AggExResult"</td></tr>
+<tr><td style="width: 25%;"><a href="ExClust-class.html">length-method</a></td>
+<td>Class "ExClust"</td></tr>
+<tr><td style="width: 25%;"><a href="similarities.html">linKernel</a></td>
+<td>Methods for Computing Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="similarities.html">linSimMat</a></td>
+<td>Methods for Computing Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="similarities.html">negDistMat</a></td>
+<td>Methods for Computing Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="plot-methods.html">plot</a></td>
+<td>Plot Clustering Results</td></tr>
+<tr><td style="width: 25%;"><a href="plot-methods.html">plot-method</a></td>
+<td>Plot Clustering Results</td></tr>
+<tr><td style="width: 25%;"><a href="plot-methods.html">plot-methods</a></td>
+<td>Plot Clustering Results</td></tr>
+<tr><td style="width: 25%;"><a href="preferenceRange-methods.html">preferenceRange</a></td>
+<td>Determine Meaningful Ranges for Input Preferences</td></tr>
+<tr><td style="width: 25%;"><a href="preferenceRange-methods.html">preferenceRange-method</a></td>
+<td>Determine Meaningful Ranges for Input Preferences</td></tr>
+<tr><td style="width: 25%;"><a href="preferenceRange-methods.html">preferenceRange-methods</a></td>
+<td>Determine Meaningful Ranges for Input Preferences</td></tr>
+<tr><td style="width: 25%;"><a href="show-methods.html">show</a></td>
+<td>Display Clustering Result Objects</td></tr>
+<tr><td style="width: 25%;"><a href="show-methods.html">show-method</a></td>
+<td>Display Clustering Result Objects</td></tr>
+<tr><td style="width: 25%;"><a href="show-methods.html">show-methods</a></td>
+<td>Display Clustering Result Objects</td></tr>
+<tr><td style="width: 25%;"><a href="similarities.html">similarities</a></td>
+<td>Methods for Computing Similarity Matrices</td></tr>
+<tr><td style="width: 25%;"><a href="APResult-class.html">similarity</a></td>
+<td>Class "APResult"</td></tr>
+<tr><td style="width: 25%;"><a href="APResult-class.html">similarity-method</a></td>
+<td>Class "APResult"</td></tr>
+<tr><td style="width: 25%;"><a href="AggExResult-class.html">similarity-method</a></td>
+<td>Class "AggExResult"</td></tr>
+<tr><td style="width: 25%;"><a href="ExClust-class.html">similarity-method</a></td>
+<td>Class "ExClust"</td></tr>
+<tr><td style="width: 25%;"><a href="sort-methods.html">sort</a></td>
+<td>Sort clusters</td></tr>
+<tr><td style="width: 25%;"><a href="sort-methods.html">sort-method</a></td>
+<td>Sort clusters</td></tr>
+<tr><td style="width: 25%;"><a href="sort-methods.html">sort-methods</a></td>
+<td>Sort clusters</td></tr>
+<tr><td style="width: 25%;"><a href="APResult-class.html">[-method</a></td>
+<td>Class "APResult"</td></tr>
+<tr><td style="width: 25%;"><a href="AggExResult-class.html">[-method</a></td>
+<td>Class "AggExResult"</td></tr>
+<tr><td style="width: 25%;"><a href="ExClust-class.html">[-method</a></td>
+<td>Class "ExClust"</td></tr>
+<tr><td style="width: 25%;"><a href="APResult-class.html">[[-method</a></td>
+<td>Class "APResult"</td></tr>
+<tr><td style="width: 25%;"><a href="AggExResult-class.html">[[-method</a></td>
+<td>Class "AggExResult"</td></tr>
+<tr><td style="width: 25%;"><a href="ExClust-class.html">[[-method</a></td>
+<td>Class "ExClust"</td></tr>
+</table>
+</div></body></html>

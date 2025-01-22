@@ -1,0 +1,37 @@
+hex_to_lab              Convert hex RGB values to Lab space.
+hex_to_rgb              Convert hexadecimal colours to RGB colour
+                        channels.
+hex_to_xyz              Convert hex RGB values to XYZ space.
+hsl_to_hsv              Convert HSL to HSV
+hsl_to_lab              Convert HSL to Lab
+hsl_to_rgb              Convert HSL space into RGB space
+hsl_to_xyz              Convert HSL to XYZ
+hsv_to_hsl              Convert HSV to HSL
+hsv_to_lab              Convert HSV to Lab
+hsv_to_rgb              Convert HSV to RGB
+hsv_to_xyz              Convert HSV to XYZ
+image_to_pallette       Develop a usable colour palette form an image.
+lab_to_hex              Convert from Lab space into hex RGB colour
+                        values.
+lab_to_hsl              Convert Lab to HSL
+lab_to_hsv              Convert Lab to HSv
+lab_to_rgb              Convert from Lab space into RGB colour
+                        channels.
+lab_to_xyz              Convert from Lab space to XYZ colour channels.
+palette,schemr-method   Plot the colour palette
+plot,schemr,ANY-method
+                        Plot the clustered image data
+rgb_to_hex              Convert RGB colour channels to hex colour
+                        codes.
+rgb_to_hsl              Convert RGB space into HSL space
+rgb_to_hsv              Convert RGB to HSV
+rgb_to_lab              Convert from RGB colour channels to Lab space.
+rgb_to_xyz              Convert from RGB colour channels to XYZ space.
+schemr-class            Create the schemr class, which holds the
+                        palette and image data
+xyz_to_hex              Convert from XYZ space into hex RGB colour
+                        values.
+xyz_to_hsl              Convert XYZ to HSL
+xyz_to_hsv              Convert XYZ to HSV
+xyz_to_lab              Convert from XYZ colour channels to Lab space.
+xyz_to_rgb              Convert from RGB colour channels to XYZ space.

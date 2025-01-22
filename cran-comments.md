@@ -1,5 +1,5 @@
 ## Test environments
-* local Ubuntu 22.04 install, R 4.4.0
+* local Ubuntu 24.04 install, R 4.4.2
 * Ubuntu 22.04 (on travis-ci), R 4.5.0
 * win-builder (devel and release)
 * macOS Sonoma 14.5, R 4.4.1

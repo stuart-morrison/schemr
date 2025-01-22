@@ -1,0 +1,22 @@
+APResult-class          Class "APResult"
+AggExResult-class       Class "AggExResult"
+ExClust-class           Class "ExClust"
+aggExCluster            Exemplar-based Agglomerative Clustering
+apcluster               Affinity Propagation
+apcluster-package       APCluster Package
+apclusterDemo           Affinity Propagation Demo
+apclusterK              Affinity Propagation for Pre-defined Number of
+                        Clusters
+apclusterL              Leveraged Affinity Propagation
+as.hclust               Coercion of cluster hierarchies
+conversions             Conversions Between Dense and Sparse Similarity
+                        Matrices
+cutree-methods          Cut Out Clustering Level from Cluster Hierarchy
+heatmap                 Plot Heatmap
+labels-methods          Generate label vector from clustering result
+plot                    Plot Clustering Results
+preferenceRange         Determine Meaningful Ranges for Input
+                        Preferences
+show-methods            Display Clustering Result Objects
+similarities            Methods for Computing Similarity Matrices
+sort-methods            Sort clusters

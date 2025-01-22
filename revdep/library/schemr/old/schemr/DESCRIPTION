@@ -1,0 +1,21 @@
+Package: schemr
+Type: Package
+Title: Convert Images to Usable Color Schemes
+Version: 0.3.0
+Authors@R: 
+    person("Stuart", "Morrison", , "smorrison@ucdavis.edu", role = c("aut", "cre"))
+BugReports: https://github.com/stuart-morrison/schemr/issues
+Description: A fast and adaptable tool to convert photos and images into usable colour schemes for data visualisation. Contains functionality to extract colour palettes from images, as well for the conversion of images between colour spaces.
+License: GPL-3
+Encoding: UTF-8
+Imports: dplyr, stringr, magrittr, purrr, apcluster, OpenImageR,
+        methods
+RoxygenNote: 7.3.1
+Suggests: testthat
+NeedsCompilation: no
+Packaged: 2024-06-25 00:33:28 UTC; stuart
+Author: Stuart Morrison [aut, cre]
+Maintainer: Stuart Morrison <smorrison@ucdavis.edu>
+Repository: CRAN
+Date/Publication: 2024-06-25 02:30:02 UTC
+Built: R 4.4.2; ; 2025-01-22 00:19:57 UTC; unix
